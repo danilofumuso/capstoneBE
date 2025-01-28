@@ -24,7 +24,7 @@ public class AuthRunner implements ApplicationRunner {
         // Creazione dell'utente admin se non esiste
         Optional<AppUser> adminUser = appUserService.findByUsername("admin");
         if (adminUser.isEmpty()) {
-            RegisterRequest adminRequest = new RegisterRequest();
+            RegisterDTO adminRequest = new RegisterDTO();
             adminRequest.setUsername("Admin");
             adminRequest.setPassword("adminpwd");
             adminRequest.setEmail("admin@epicode.it");
@@ -37,7 +37,7 @@ public class AuthRunner implements ApplicationRunner {
         // Creazione dell'utente user se non esiste
         Optional<AppUser> student = appUserService.findByUsername("student");
         if (student.isEmpty()) {
-            RegisterRequest studentRequest = new RegisterRequest();
+            RegisterDTO studentRequest = new RegisterDTO();
             studentRequest.setUsername("Student");
             studentRequest.setPassword("studentpwd");
             studentRequest.setEmail("student@epicode.it");
@@ -49,7 +49,7 @@ public class AuthRunner implements ApplicationRunner {
 
         Optional<AppUser> professional = appUserService.findByUsername("professional");
         if (professional.isEmpty()) {
-            RegisterRequest professionalRequest = new RegisterRequest();
+            RegisterDTO professionalRequest = new RegisterDTO();
             professionalRequest.setUsername("Professional");
             professionalRequest.setPassword("professionalpwd");
             professionalRequest.setEmail("professional@epicode.it");

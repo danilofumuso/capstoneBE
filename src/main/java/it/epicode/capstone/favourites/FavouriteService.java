@@ -45,6 +45,8 @@ public class FavouriteService {
         Optional<Favourite> favouriteToRemove = favouriteRepository.findByStudentIdAndProfessionalId(studentId, professionalId);
 
         favouriteToRemove.ifPresent(favouriteRepository::delete);
+
+        //posso usare solo l'id del preferito?
     }
 
     public Page<Favourite> getFavourites(Long studentId, Pageable pageable) {

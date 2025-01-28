@@ -47,14 +47,14 @@ public class AppUserService {
     private ProfessionalRepository professionalRepository;
 
     @Transactional
-    public AppUser registerUser(RegisterRequest registerRequest, MultipartFile profilePicture, Set<Role> roles) {
-        if (appUserRepository.existsByUsername(registerRequest.getUsername())) {
+    public AppUser registerUser(RegisterDTO registerDTO, MultipartFile profilePicture, Set<Role> roles) {
+        if (appUserRepository.existsByUsername(registerDTO.getUsername())) {
             throw new EntityExistsException("Username already used!");
         }
 
-        registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         AppUser appUser = new AppUser();
-        BeanUtils.copyProperties(registerRequest, appUser);
+        BeanUtils.copyProperties(registerDTO, appUser);
         if (profilePicture != null && !profilePicture.isEmpty()) {
             appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "usersProfilePictures").get("url").toString());
         }
@@ -74,9 +74,10 @@ public class AppUserService {
         return appUserRepository.save(appUser);
     }
 
-    public Optional<AppUser> findByUsername(String username) {
-        return appUserRepository.findByUsername(username);
-    }
+//    public AppUser modifyUser(RegisterDTO registerDTO){
+//
+//    }
+
 
     public AuthResponse authenticateUser(String username, String password) {
         try {
@@ -98,6 +99,11 @@ public class AppUserService {
         } catch (AuthenticationException e) {
             throw new SecurityException("Invalid credentials", e);
         }
+    }
+
+
+    public Optional<AppUser> findByUsername(String username) {
+        return appUserRepository.findByUsername(username);
     }
 
     public AppUser loadUserByUsername(String username) {

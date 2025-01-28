@@ -2,7 +2,6 @@ package it.epicode.capstone.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.epicode.capstone.JacksonConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +24,15 @@ public class AuthController {
     public ResponseEntity<AppUser> registerAdmin(@RequestParam("appUser") String appUser,
                                                    @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture){
 
-        RegisterRequest registerRequest;
+        RegisterDTO registerDTO;
 
         try {
-            registerRequest = objectMapper.readValue(appUser, RegisterRequest.class);
+            registerDTO = objectMapper.readValue(appUser, RegisterDTO.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        return new ResponseEntity<>(appUserService.registerUser(registerRequest, profilePicture, Set.of(Role.ROLE_ADMIN)), HttpStatus.CREATED);
+        return new ResponseEntity<>(appUserService.registerUser(registerDTO, profilePicture, Set.of(Role.ROLE_ADMIN)), HttpStatus.CREATED);
 
     }
 
@@ -41,15 +40,15 @@ public class AuthController {
     public ResponseEntity<AppUser> registerStudent(@RequestParam("appUser") String appUser,
                                                    @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture){
 
-        RegisterRequest registerRequest;
+        RegisterDTO registerDTO;
 
         try {
-            registerRequest = objectMapper.readValue(appUser, RegisterRequest.class);
+            registerDTO = objectMapper.readValue(appUser, RegisterDTO.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        return new ResponseEntity<>(appUserService.registerUser(registerRequest, profilePicture, Set.of(Role.ROLE_STUDENT)), HttpStatus.CREATED);
+        return new ResponseEntity<>(appUserService.registerUser(registerDTO, profilePicture, Set.of(Role.ROLE_STUDENT)), HttpStatus.CREATED);
 
     }
 
@@ -57,15 +56,15 @@ public class AuthController {
     public ResponseEntity<AppUser> registerProfessionista(@RequestParam("appUser") String appUser,
                                             @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture){
 
-        RegisterRequest registerRequest;
+        RegisterDTO registerDTO;
 
         try {
-            registerRequest = objectMapper.readValue(appUser, RegisterRequest.class);
+            registerDTO = objectMapper.readValue(appUser, RegisterDTO.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        return new ResponseEntity<>(appUserService.registerUser(registerRequest, profilePicture, Set.of(Role.ROLE_PROFESSIONAL)), HttpStatus.CREATED);
+        return new ResponseEntity<>(appUserService.registerUser(registerDTO, profilePicture, Set.of(Role.ROLE_PROFESSIONAL)), HttpStatus.CREATED);
 
     }
 
