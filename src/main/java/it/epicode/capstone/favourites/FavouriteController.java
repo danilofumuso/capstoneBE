@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,12 +17,14 @@ public class FavouriteController {
     @Autowired
     private FavouriteService favouriteService;
 
-    @GetMapping("/{studentId}")
+    @GetMapping
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<Page<Favourite>> getFavourites(@PathVariable Long studentId, Pageable pageable) {
-        return ResponseEntity.ok(favouriteService.getFavourites(studentId, pageable));
+    public ResponseEntity<Page<Favourite>> getFavourites(@AuthenticationPrincipal UserDetails student, Pageable pageable) {
+        return ResponseEntity.ok(favouriteService.getFavourites(student.getUsername(), pageable));
     }
 
+//    //TODO
+//    //modificare anche post e delete sfruttando @AuthenticationPrincipal UserDetails student
     @PostMapping("/{studentId}")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<Favourite> addFavourite(@PathVariable Long studentId, @RequestParam Long professionalId) {

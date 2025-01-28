@@ -12,5 +12,5 @@ public interface FavouriteRepository extends JpaRepository<Favourite, Long> {
 
     Optional<Favourite> findByStudentIdAndProfessionalId(Long studentId, Long professionalId);
 
-    Page<Favourite> findByStudentId(Long studentId, Pageable pageable);
+    Page<Favourite> findByStudentAppUserUsername(String username, Pageable pageable);
 }

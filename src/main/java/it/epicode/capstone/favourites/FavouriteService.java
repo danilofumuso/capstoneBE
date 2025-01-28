@@ -49,7 +49,7 @@ public class FavouriteService {
         //posso usare solo l'id del preferito?
     }
 
-    public Page<Favourite> getFavourites(Long studentId, Pageable pageable) {
-        return favouriteRepository.findByStudentId(studentId, pageable);
+    public Page<Favourite> getFavourites(String studentUsername, Pageable pageable) {
+        return favouriteRepository.findByStudentAppUserUsername(studentUsername, pageable);
     }
 }
