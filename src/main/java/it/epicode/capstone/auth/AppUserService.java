@@ -64,7 +64,6 @@ public class AppUserService {
         if (roles.contains(Role.ROLE_STUDENT)) {
             Student student = new Student();
             student.setAppUser(appUser);
-            // Qui puoi anche aggiungere altre informazioni specifiche dello studente
             studentRepository.save(student);
         }else if (roles.contains(Role.ROLE_PROFESSIONAL)){
             Professional professional=new Professional();
