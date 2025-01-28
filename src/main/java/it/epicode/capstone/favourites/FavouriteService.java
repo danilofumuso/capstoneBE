@@ -5,6 +5,8 @@ import it.epicode.capstone.active_users.professional.ProfessionalRepository;
 import it.epicode.capstone.active_users.student.Student;
 import it.epicode.capstone.active_users.student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class FavouriteService {
     @Autowired
     private ProfessionalRepository professionalRepository;
 
-    public void addFavourite(Long studentId, Long professionalId) {
+    public Favourite addFavourite(Long studentId, Long professionalId) {
         if (favouriteRepository.existsByStudentIdAndProfessionalId(studentId, professionalId)) {
             throw new RuntimeException("This professional is already in your favourites.");
         }
@@ -34,7 +36,7 @@ public class FavouriteService {
         favourite.setStudent(student);
         favourite.setProfessional(professional);
 
-        favouriteRepository.save(favourite);
+        return favouriteRepository.save(favourite);
     }
 
     public void removeFavourite(Long studentId, Long professionalId) {
@@ -43,9 +45,9 @@ public class FavouriteService {
         favouriteToRemove.ifPresent(favouriteRepository::delete);
     }
 
-    public List<Professional> getFavourites(Long studentId) {
-        return favouriteRepository.findByStudentId(studentId).stream()
-                .map(Favourite::getProfessional)
-                .collect(Collectors.toList());
+    public Page<Professional> getFavourites(Long studentId, Pageable pageable) {
+
+        Page<Favourite> professionals = favouriteRepository.findByStudentId(studentId, pageable);
+        return professionals.map(Favourite::getProfessional);
     }
 }
