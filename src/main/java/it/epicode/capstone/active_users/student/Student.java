@@ -1,5 +1,6 @@
 package it.epicode.capstone.active_users.student;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.epicode.capstone.auth.AppUser;
 import it.epicode.capstone.favourites.Favourite;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class Student {
     private AppUser appUser;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Favourite> favorites = new HashSet<>();
 }
 

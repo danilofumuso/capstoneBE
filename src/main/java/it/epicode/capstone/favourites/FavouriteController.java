@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/favourites")
 public class FavouriteController {
@@ -18,18 +16,18 @@ public class FavouriteController {
     private FavouriteService favouriteService;
 
     @GetMapping("/{studentId}")
-    public ResponseEntity<Page<Professional>> getFavourites(@PathVariable Long studentId, Pageable pageable) {
+    public ResponseEntity<Page<Favourite>> getFavourites(@PathVariable Long studentId, Pageable pageable) {
         return ResponseEntity.ok(favouriteService.getFavourites(studentId, pageable));
     }
 
-    @PostMapping
-    public ResponseEntity<Favourite> addFavourite(@RequestParam Long studentId, @RequestParam Long professionalId) {
+    @PostMapping("/{studentId}")
+    public ResponseEntity<Favourite> addFavourite(@PathVariable Long studentId, @RequestParam Long professionalId) {
 
         return new ResponseEntity<>(favouriteService.addFavourite(studentId, professionalId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> removeFavourite(@RequestParam Long studentId, @RequestParam Long professionalId) {
+    @DeleteMapping("/{studentId}")
+    public ResponseEntity<String> removeFavourite(@PathVariable Long studentId, @RequestParam Long professionalId) {
         favouriteService.removeFavourite(studentId, professionalId);
         return ResponseEntity.ok("Professional removed from favourites");
     }

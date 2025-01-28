@@ -1,5 +1,6 @@
 package it.epicode.capstone.favourites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.epicode.capstone.active_users.professional.Professional;
 import it.epicode.capstone.active_users.student.Student;
 import jakarta.persistence.*;
@@ -17,6 +18,7 @@ public class Favourite {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonIgnore
     private Student student;
 
     @ManyToOne

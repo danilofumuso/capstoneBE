@@ -3,7 +3,6 @@ package it.epicode.capstone.active_users.professional;
 import it.epicode.capstone.auth.AppUser;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 import java.util.Set;
 
 @Data
@@ -32,10 +31,10 @@ public class Professional {
     private String academicCareerPath;
 
     @Column(name= "academic_career_path_video")
-    private MultipartFile academicCareerPathVideo;
+    private String academicCareerPathVideo;
 
     @Column(name = "curriculum_vitae")
-    private MultipartFile curriculumVitae;
+    private String curriculumVitae;
 
     @OneToOne
     @MapsId
