@@ -4,6 +4,7 @@ import it.epicode.capstone.active_users.professional.Professional;
 import it.epicode.capstone.active_users.professional.ProfessionalRepository;
 import it.epicode.capstone.active_users.student.Student;
 import it.epicode.capstone.active_users.student.StudentRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,12 +25,16 @@ public class FavouriteService {
     @Autowired
     private ProfessionalRepository professionalRepository;
 
-    public Favourite addFavourite(Long studentId, Long professionalId) {
-        if (favouriteRepository.existsByStudentIdAndProfessionalId(studentId, professionalId)) {
-            throw new RuntimeException("This professional is already in your favourites");
+    public Page<Favourite> getFavourites(String studentUsername, Pageable pageable) {
+        return favouriteRepository.findByStudentAppUserUsername(studentUsername, pageable);
+    }
+
+    public Favourite addFavourite(String studentUsername, Long professionalId) {
+        if (favouriteRepository.existsByStudentAppUserUsernameAndProfessionalId(studentUsername, professionalId)) {
+            throw new EntityExistsException("This professional is already in your favourites");
         }
 
-        Student student = studentRepository.findById(studentId)
+        Student student = studentRepository.findByAppUserUsername(studentUsername)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         Professional professional = professionalRepository.findById(professionalId)
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
@@ -41,15 +46,12 @@ public class FavouriteService {
         return favouriteRepository.save(favourite);
     }
 
-    public void removeFavourite(Long studentId, Long professionalId) {
-        Optional<Favourite> favouriteToRemove = favouriteRepository.findByStudentIdAndProfessionalId(studentId, professionalId);
+    public void removeFavourite(String studentUsername, Long favouriteId) {
+        Favourite favouriteToRemove = favouriteRepository.findByStudentAppUserUsernameAndId(studentUsername, favouriteId)
+                .orElseThrow(() -> new EntityNotFoundException("Favourite not found"));
 
-        favouriteToRemove.ifPresent(favouriteRepository::delete);
-
-        //posso usare solo l'id del preferito?
+        favouriteRepository.delete(favouriteToRemove);
     }
 
-    public Page<Favourite> getFavourites(String studentUsername, Pageable pageable) {
-        return favouriteRepository.findByStudentAppUserUsername(studentUsername, pageable);
-    }
+
 }

@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface FavouriteRepository extends JpaRepository<Favourite, Long> {
-
-    boolean existsByStudentIdAndProfessionalId(Long studentId, Long professionalId);
-
-    Optional<Favourite> findByStudentIdAndProfessionalId(Long studentId, Long professionalId);
-
     Page<Favourite> findByStudentAppUserUsername(String username, Pageable pageable);
+
+    boolean existsByStudentAppUserUsernameAndProfessionalId(String username, Long professionalId);
+
+    Optional<Favourite> findByStudentAppUserUsernameAndId(String username, Long favouriteId);
+
 }

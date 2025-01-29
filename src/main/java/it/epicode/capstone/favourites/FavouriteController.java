@@ -23,20 +23,18 @@ public class FavouriteController {
         return ResponseEntity.ok(favouriteService.getFavourites(student.getUsername(), pageable));
     }
 
-//    //TODO
-//    //modificare anche post e delete sfruttando @AuthenticationPrincipal UserDetails student
-    @PostMapping("/{studentId}")
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<Favourite> addFavourite(@PathVariable Long studentId, @RequestParam Long professionalId) {
+    public ResponseEntity<Favourite> addFavourite(@AuthenticationPrincipal UserDetails student, @RequestParam Long professionalId) {
 
-        return new ResponseEntity<>(favouriteService.addFavourite(studentId, professionalId), HttpStatus.CREATED);
+        return new ResponseEntity<>(favouriteService.addFavourite(student.getUsername(), professionalId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{studentId}")
+    @DeleteMapping
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<String> removeFavourite(@PathVariable Long studentId, @RequestParam Long professionalId) {
-        favouriteService.removeFavourite(studentId, professionalId);
-        return ResponseEntity.ok("Professional removed from favourites");
+    public ResponseEntity<String> removeFavourite(@AuthenticationPrincipal UserDetails student, @RequestParam Long favouriteId) {
+        favouriteService.removeFavourite(student.getUsername(), favouriteId);
+        return new ResponseEntity<>("Professional removed from favourites", HttpStatus.NO_CONTENT);
     }
 
 }

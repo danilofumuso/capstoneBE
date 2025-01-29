@@ -14,7 +14,7 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionsHandlerClass {
-    @ExceptionHandler(value = EntityExistsException.class)
+ @ExceptionHandler(value = EntityExistsException.class)
     protected ResponseEntity<Object> entityExist(EntityExistsException e) {
         return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.CONFLICT);
     }

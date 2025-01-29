@@ -65,8 +65,8 @@ public class AppUserService {
             Student student = new Student();
             student.setAppUser(appUser);
             studentRepository.save(student);
-        }else if (roles.contains(Role.ROLE_PROFESSIONAL)){
-            Professional professional=new Professional();
+        } else if (roles.contains(Role.ROLE_PROFESSIONAL)) {
+            Professional professional = new Professional();
             professional.setAppUser(appUser);
             professionalRepository.save(professional);
         }
@@ -107,9 +107,8 @@ public class AppUserService {
     }
 
     public AppUser loadUserByUsername(String username) {
-        AppUser appUser = appUserRepository.findByUsername(username)
+        return appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
 
-        return appUser;
     }
 }
