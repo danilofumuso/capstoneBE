@@ -1,6 +1,6 @@
 package it.epicode.capstone.auth;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import it.epicode.capstone.active_users.professional.Professional;
 import it.epicode.capstone.active_users.student.Student;
 import jakarta.persistence.*;
@@ -18,20 +18,20 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
     private String name;
 
     private String surname;
 
     private LocalDate dateOfBirth;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     private String profilePicture;
 
@@ -39,11 +39,11 @@ public class AppUser {
     private Set<Role> roles;
 
     @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonBackReference
     private Student student;
 
     @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonBackReference
     private Professional professional;
 
 }

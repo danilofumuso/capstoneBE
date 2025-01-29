@@ -36,7 +36,7 @@ public class Professional {
     @Column(name = "curriculum_vitae")
     private String curriculumVitae;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @MapsId
     private AppUser appUser;
 }

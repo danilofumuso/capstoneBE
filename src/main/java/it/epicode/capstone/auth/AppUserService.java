@@ -74,11 +74,6 @@ public class AppUserService {
         return appUserRepository.save(appUser);
     }
 
-//    public AppUser modifyUser(RegisterDTO registerDTO){
-//
-//    }
-
-
     public AuthResponse authenticateUser(String username, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(

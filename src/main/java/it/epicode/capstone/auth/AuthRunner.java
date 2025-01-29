@@ -22,7 +22,7 @@ public class AuthRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // Creazione dell'utente admin se non esiste
-        Optional<AppUser> adminUser = appUserService.findByUsername("admin");
+        Optional<AppUser> adminUser = appUserService.findByUsername("Admin");
         if (adminUser.isEmpty()) {
             RegisterDTO adminRequest = new RegisterDTO();
             adminRequest.setUsername("Admin");
@@ -35,7 +35,7 @@ public class AuthRunner implements ApplicationRunner {
         }
 
         // Creazione dell'utente user se non esiste
-        Optional<AppUser> student = appUserService.findByUsername("student");
+        Optional<AppUser> student = appUserService.findByUsername("Student");
         if (student.isEmpty()) {
             RegisterDTO studentRequest = new RegisterDTO();
             studentRequest.setUsername("Student");
@@ -47,7 +47,7 @@ public class AuthRunner implements ApplicationRunner {
             appUserService.registerUser(studentRequest, null, Set.of(Role.ROLE_STUDENT));
         }
 
-        Optional<AppUser> professional = appUserService.findByUsername("professional");
+        Optional<AppUser> professional = appUserService.findByUsername("Professional");
         if (professional.isEmpty()) {
             RegisterDTO professionalRequest = new RegisterDTO();
             professionalRequest.setUsername("Professional");

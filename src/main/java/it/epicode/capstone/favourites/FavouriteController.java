@@ -36,5 +36,4 @@ public class FavouriteController {
         favouriteService.removeFavourite(student.getUsername(), favouriteId);
         return new ResponseEntity<>("Professional removed from favourites", HttpStatus.NO_CONTENT);
     }
-
 }
