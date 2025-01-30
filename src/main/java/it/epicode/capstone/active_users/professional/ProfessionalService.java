@@ -3,6 +3,8 @@ package it.epicode.capstone.active_users.professional;
 import it.epicode.capstone.auth.AppUser;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,10 @@ public class ProfessionalService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public Page<Professional> getAllProfessionals(Pageable pageable){
+        return professionalRepository.findAll(pageable);
+    }
 
     @Transactional
     public Professional updateProfessional(String professionalUsername, ProfessionalDTO professionalDTO) {
@@ -47,19 +53,19 @@ public class ProfessionalService {
         }
 
         if (professionalDTO.getUniversities() != null) {
-            professional.getUniversities().addAll(professionalDTO.getUniversities());
+            professional.setUniversities(professionalDTO.getUniversities());
         }
 
         if (professionalDTO.getFaculties() != null) {
-            professional.getFaculties().addAll(professionalDTO.getFaculties());
+            professional.setFaculties(professionalDTO.getFaculties());
         }
 
         if (professionalDTO.getCourses() != null) {
-            professional.getCourses().addAll(professionalDTO.getCourses());
+            professional.setCourses(professionalDTO.getCourses());
         }
 
         if (professionalDTO.getAcademicTitles() != null) {
-            professional.getAcademicTitles().addAll(professionalDTO.getAcademicTitles());
+            professional.setAcademicTitles(professionalDTO.getAcademicTitles());
         }
 
         if (professionalDTO.getOccupation() != null) {

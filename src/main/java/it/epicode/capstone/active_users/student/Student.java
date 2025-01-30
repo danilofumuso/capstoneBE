@@ -1,6 +1,6 @@
 package it.epicode.capstone.active_users.student;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import it.epicode.capstone.auth.AppUser;
 import it.epicode.capstone.favourites.Favourite;
 import jakarta.persistence.*;
@@ -12,6 +12,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "students")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
