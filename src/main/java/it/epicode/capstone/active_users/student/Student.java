@@ -3,7 +3,7 @@ package it.epicode.capstone.active_users.student;
 import com.fasterxml.jackson.annotation.*;
 import it.epicode.capstone.auth.AppUser;
 import it.epicode.capstone.favourite.Favourite;
-import it.epicode.capstone.professional_sector.ProfessionalSector;
+import it.epicode.capstone.sector.Sector;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class Student {
     private Long id;
 
     @ManyToMany
-    private Set<ProfessionalSector> sectorsOfInterest = new HashSet<>();
+    private Set<Sector> sectorsOfInterest = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @MapsId

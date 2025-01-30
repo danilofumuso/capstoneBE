@@ -7,6 +7,6 @@ import java.util.Optional;
 public interface ProfessionalRepository extends JpaRepository<Professional, Long> {
     Optional<Professional> findByAppUserUsername(String username);
 
-    void deleteByAppUserUsername(String professionalUsername);
+    void deleteByAppUserUsername(String username);
 }
 

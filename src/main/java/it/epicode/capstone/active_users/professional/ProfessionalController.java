@@ -18,19 +18,19 @@ public class ProfessionalController {
     private ProfessionalService professionalService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<Professional>> getAllProfessional(Pageable pageable){
         return ResponseEntity.ok(professionalService.getAllProfessionals(pageable));
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('ROLE_PROFESSIONAL')")
+    @PreAuthorize("hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Professional> updateProfessional(@AuthenticationPrincipal UserDetails professional, @RequestBody ProfessionalDTO professionalDTO) {
         return ResponseEntity.ok(professionalService.updateProfessional(professional.getUsername(), professionalDTO));
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('ROLE_PROFESSIONAL')")
+    @PreAuthorize("hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteProfessional(@AuthenticationPrincipal UserDetails professional) {
         professionalService.deleteProfessional(professional.getUsername());
         return new ResponseEntity<>("Professional removed successfully", HttpStatus.NO_CONTENT);

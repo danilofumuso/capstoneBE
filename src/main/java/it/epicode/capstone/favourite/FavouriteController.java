@@ -30,9 +30,9 @@ public class FavouriteController {
         return new ResponseEntity<>(favouriteService.addFavourite(student.getUsername(), professionalId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{favouriteId}")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<String> removeFavourite(@AuthenticationPrincipal UserDetails student, @RequestParam Long favouriteId) {
+    public ResponseEntity<String> removeFavourite(@AuthenticationPrincipal UserDetails student, @PathVariable Long favouriteId) {
         favouriteService.removeFavourite(student.getUsername(), favouriteId);
         return new ResponseEntity<>("Professional removed from favourites", HttpStatus.NO_CONTENT);
     }

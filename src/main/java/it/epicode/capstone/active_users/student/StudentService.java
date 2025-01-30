@@ -15,11 +15,6 @@ public class StudentService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-//
-//    public Student getStudent(String studentUsername) {
-//        return studentRepository.findByAppUserUsername(studentUsername)
-//                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
-//    }
 
     @Transactional
     public Student updateStudent(String studentUsername, StudentDTO studentDTO) {
