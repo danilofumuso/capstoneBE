@@ -1,4 +1,4 @@
-package it.epicode.capstone.favourites;
+package it.epicode.capstone.favourite;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

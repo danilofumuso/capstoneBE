@@ -3,7 +3,6 @@ package it.epicode.capstone.active_users.student;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 public class StudentDTO {
@@ -13,5 +12,4 @@ public class StudentDTO {
     private String username;
     private String email;
     private String password;
-    private Set<String> interests;
 }

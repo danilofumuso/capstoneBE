@@ -1,4 +1,4 @@
-package it.epicode.capstone.favourites;
+package it.epicode.capstone.favourite;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

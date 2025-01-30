@@ -52,30 +52,6 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-        if (professionalDTO.getUniversities() != null) {
-            professional.setUniversities(professionalDTO.getUniversities());
-        }
-
-        if (professionalDTO.getFaculties() != null) {
-            professional.setFaculties(professionalDTO.getFaculties());
-        }
-
-        if (professionalDTO.getCourses() != null) {
-            professional.setCourses(professionalDTO.getCourses());
-        }
-
-        if (professionalDTO.getAcademicTitles() != null) {
-            professional.setAcademicTitles(professionalDTO.getAcademicTitles());
-        }
-
-        if (professionalDTO.getOccupation() != null) {
-            professional.setOccupation(professionalDTO.getOccupation());
-        }
-
-        if (professionalDTO.getOccupationArea() != null) {
-            professional.setOccupationArea(professionalDTO.getOccupationArea());
-        }
-
         if (professionalDTO.getAcademicCareerPath() != null) {
             professional.setAcademicCareerPath(professionalDTO.getAcademicCareerPath());
         }

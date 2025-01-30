@@ -1,4 +1,4 @@
-package it.epicode.capstone.favourites;
+package it.epicode.capstone.favourite;
 
 import it.epicode.capstone.active_users.professional.Professional;
 import it.epicode.capstone.active_users.professional.ProfessionalRepository;

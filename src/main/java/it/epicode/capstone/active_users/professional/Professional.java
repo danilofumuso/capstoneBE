@@ -1,12 +1,14 @@
 package it.epicode.capstone.active_users.professional;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import it.epicode.capstone.auth.AppUser;
+import it.epicode.capstone.profession.Profession;
+import it.epicode.capstone.university.University;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -18,30 +20,24 @@ public class Professional {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Set<String> universities;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapsId
+    private AppUser appUser;
 
-    private Set<String> faculties;
+    @ManyToMany
+    private Set<University> universities = new HashSet<>();
 
-    private Set<String> courses;
+    @ManyToOne
+    @JoinColumn(name = "profession_id")
+    private Profession profession;
 
-    @Column(name = "academic_titles")
-    private Set<String> academicTitles;
-
-    private String occupation;
-
-    @Column(name= "occupation_area")
-    private String occupationArea;
-
-    @Column(name= "academic_career_path")
+    @Column(name = "academic_career_path")
     private String academicCareerPath;
 
-    @Column(name= "academic_career_path_video")
+    @Column(name = "academic_career_path_video")
     private String academicCareerPathVideo;
 
     @Column(name = "curriculum_vitae")
     private String curriculumVitae;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @MapsId
-    private AppUser appUser;
 }

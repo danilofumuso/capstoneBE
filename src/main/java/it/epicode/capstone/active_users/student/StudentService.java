@@ -51,10 +51,6 @@ public class StudentService {
             appUser.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
         }
 
-        if (studentDTO.getInterests() != null) {
-            student.getInterests().addAll(studentDTO.getInterests());
-        }
-
         return studentRepository.save(student);
     }
 

@@ -1,4 +1,4 @@
-package it.epicode.capstone.favourites;
+package it.epicode.capstone.favourite;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.epicode.capstone.active_users.professional.Professional;
@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Entity
