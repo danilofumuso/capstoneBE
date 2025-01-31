@@ -5,6 +5,12 @@ import it.epicode.capstone.active_users.professional.ProfessionalRepository;
 import it.epicode.capstone.active_users.student.Student;
 import it.epicode.capstone.active_users.student.StudentRepository;
 import it.epicode.capstone.cloudinary.CloudinaryService;
+import it.epicode.capstone.profession.Profession;
+import it.epicode.capstone.profession.ProfessionRepository;
+import it.epicode.capstone.sector.Sector;
+import it.epicode.capstone.sector.SectorRepository;
+import it.epicode.capstone.university.University;
+import it.epicode.capstone.university.UniversityRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,6 +53,15 @@ public class AppUserService {
     @Autowired
     private ProfessionalRepository professionalRepository;
 
+    @Autowired
+    private SectorRepository sectorRepository;
+
+    @Autowired
+    private UniversityRepository universityRepository;
+
+    @Autowired
+    private ProfessionRepository professionRepository;
+
     @Transactional
     public AppUser registerUser(RegisterDTO registerDTO, MultipartFile profilePicture, Set<Role> roles) {
         if (appUserRepository.existsByUsername(registerDTO.getUsername())) {
@@ -64,10 +80,37 @@ public class AppUserService {
         if (roles.contains(Role.ROLE_STUDENT)) {
             Student student = new Student();
             student.setAppUser(appUser);
+            if (registerDTO.getSectorsOfInterest() != null) {
+                Set<Sector> sectors = new HashSet<>();
+
+                for (String sectorName : registerDTO.getSectorsOfInterest()) {
+                    sectorRepository.findByName(sectorName).ifPresent(sectors::add);
+                }
+
+                student.setSectorsOfInterest(sectors);
+            }
+
             studentRepository.save(student);
         } else if (roles.contains(Role.ROLE_PROFESSIONAL)) {
             Professional professional = new Professional();
             professional.setAppUser(appUser);
+
+            if (registerDTO.getUniversitiesName() != null) {
+                Set<University> universities = new HashSet<>();
+
+                for (String universityName : registerDTO.getUniversitiesName()) {
+                    universityRepository.findByName(universityName).ifPresent(universities::add);
+                }
+
+                professional.setUniversities(universities);
+            }
+
+            if (registerDTO.getProfessionName() != null) {
+                Profession profession = professionRepository.findByName(registerDTO.getProfessionName())
+                        .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
+
+                professional.setProfession(profession);
+            }
             professionalRepository.save(professional);
         }
 

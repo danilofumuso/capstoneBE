@@ -2,6 +2,7 @@ package it.epicode.capstone.auth;
 
 import lombok.Data;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class RegisterDTO {
@@ -11,4 +12,7 @@ public class RegisterDTO {
     private String username;
     private String email;
     private String password;
+    private Set<String> sectorsOfInterest;
+    private Set<String> universitiesName;
+    private String professionName;
 }

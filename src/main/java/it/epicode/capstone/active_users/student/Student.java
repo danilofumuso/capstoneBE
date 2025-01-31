@@ -19,12 +19,12 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    private Set<Sector> sectorsOfInterest = new HashSet<>();
-
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @MapsId
     private AppUser appUser;
+
+    @ManyToMany
+    private Set<Sector> sectorsOfInterest = new HashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
