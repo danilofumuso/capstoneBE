@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 public class ProfessionalService {
 
@@ -67,12 +70,15 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-//        if (professionalDTO.getUniversityNames() != null){
-//            University university= universityRepository.findByName(professionalDTO.getUniversityNames())
-//                    .orElseThrow(()->new EntityNotFoundException("University not found"));
-//
-//            professional.setUniversities();
-//        }
+        if (professionalDTO.getUniversitiesName() != null){
+            Set<University> universities= new HashSet<>();
+
+            for (String universityName : professionalDTO.getUniversitiesName()) {
+               universityRepository.findByName(universityName).ifPresent(universities::add);
+            }
+
+            professional.setUniversities(universities);
+        }
 
         if (professionalDTO.getProfessionName() != null) {
             Profession profession = professionRepository.findByName(professionalDTO.getProfessionName())

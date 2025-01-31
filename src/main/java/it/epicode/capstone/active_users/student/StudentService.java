@@ -1,11 +1,16 @@
 package it.epicode.capstone.active_users.student;
 
 import it.epicode.capstone.auth.AppUser;
+import it.epicode.capstone.sector.Sector;
+import it.epicode.capstone.sector.SectorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class StudentService {
@@ -15,6 +20,9 @@ public class StudentService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SectorRepository sectorRepository;
 
     @Transactional
     public Student updateStudent(String studentUsername, StudentDTO studentDTO) {
@@ -44,6 +52,16 @@ public class StudentService {
 
         if (studentDTO.getPassword() != null) {
             appUser.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
+        }
+
+        if (studentDTO.getSectorsOfInterest() != null) {
+            Set<Sector> sectors = new HashSet<>();
+
+            for (String sectorName : studentDTO.getSectorsOfInterest()) {
+                sectorRepository.findByName(sectorName).ifPresent(sectors::add);
+            }
+
+            student.setSectorsOfInterest(sectors);
         }
 
         return studentRepository.save(student);

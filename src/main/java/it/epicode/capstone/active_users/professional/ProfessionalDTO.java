@@ -13,6 +13,6 @@ public class ProfessionalDTO {
     private String username;
     private String email;
     private String password;
-    private Set<String> universityNames;
+    private Set<String> universitiesName;
     private String professionName;
 }
