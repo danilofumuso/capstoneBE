@@ -31,11 +31,11 @@ public class Professional {
     @JoinColumn(name = "profession_id")
     private Profession profession;
 
-    @Column(name = "academic_career_path")
-    private String academicCareerPath;
+    @Column(name = "written_story")
+    private String writtenStory;
 
-    @Column(name = "academic_career_path_video")
-    private String academicCareerPathVideo;
+    @Column(name = "video_story")
+    private String videoStory;
 
     @Column(name = "curriculum_vitae")
     private String curriculumVitae;

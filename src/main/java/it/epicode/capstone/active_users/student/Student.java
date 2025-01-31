@@ -30,4 +30,3 @@ public class Student {
     @JsonIgnore
     private Set<Favourite> favorites = new HashSet<>();
 }
-

@@ -3,6 +3,7 @@ package it.epicode.capstone.active_users.professional;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 public class ProfessionalDTO {
@@ -12,7 +13,6 @@ public class ProfessionalDTO {
     private String username;
     private String email;
     private String password;
-    private String academicCareerPath;
-    private String academicCareerPathVideo;
-    private String curriculumVitae;
+    private Set<String> universityNames;
+    private String professionName;
 }

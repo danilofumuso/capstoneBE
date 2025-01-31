@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/professionals")
@@ -19,7 +20,7 @@ public class ProfessionalController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<Professional>> getAllProfessional(Pageable pageable){
+    public ResponseEntity<Page<Professional>> getAllProfessional(Pageable pageable) {
         return ResponseEntity.ok(professionalService.getAllProfessionals(pageable));
     }
 
@@ -27,6 +28,30 @@ public class ProfessionalController {
     @PreAuthorize("hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Professional> updateProfessional(@AuthenticationPrincipal UserDetails professional, @RequestBody ProfessionalDTO professionalDTO) {
         return ResponseEntity.ok(professionalService.updateProfessional(professional.getUsername(), professionalDTO));
+    }
+
+    @PatchMapping("/written_story")
+    public ResponseEntity<Professional> updateWrittenStory(
+            @AuthenticationPrincipal UserDetails professional,
+            @RequestBody String writtenStory) {
+
+        return ResponseEntity.ok(professionalService.updateWrittenStory(professional.getUsername(), writtenStory));
+    }
+
+    @PatchMapping(path = "/video_story", consumes = {"multipart/form-data"})
+    public ResponseEntity<Professional> updateVideoStory(
+            @AuthenticationPrincipal UserDetails professional,
+            @RequestParam(value = "videoStory", required = false) MultipartFile videoStory) {
+
+        return ResponseEntity.ok(professionalService.updateVideoStory(professional.getUsername(), videoStory));
+    }
+
+    @PatchMapping(path = "/curriculum_vitae", consumes = {"multipart/form-data"})
+    public ResponseEntity<Professional> updateCurriculumVitae(
+            @AuthenticationPrincipal UserDetails professional,
+            @RequestParam(value = "curriculumVitae", required = false) MultipartFile curriculumVitae) {
+
+        return ResponseEntity.ok(professionalService.updateCurriculumVitae(professional.getUsername(), curriculumVitae));
     }
 
     @DeleteMapping

@@ -1,6 +1,11 @@
 package it.epicode.capstone.active_users.professional;
 
 import it.epicode.capstone.auth.AppUser;
+import it.epicode.capstone.cloudinary.CloudinaryService;
+import it.epicode.capstone.profession.Profession;
+import it.epicode.capstone.profession.ProfessionRepository;
+import it.epicode.capstone.university.University;
+import it.epicode.capstone.university.UniversityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProfessionalService {
@@ -18,7 +24,16 @@ public class ProfessionalService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Page<Professional> getAllProfessionals(Pageable pageable){
+    @Autowired
+    private UniversityRepository universityRepository;
+
+    @Autowired
+    private ProfessionRepository professionRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
+    public Page<Professional> getAllProfessionals(Pageable pageable) {
         return professionalRepository.findAll(pageable);
     }
 
@@ -52,16 +67,48 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-        if (professionalDTO.getAcademicCareerPath() != null) {
-            professional.setAcademicCareerPath(professionalDTO.getAcademicCareerPath());
+//        if (professionalDTO.getUniversityNames() != null){
+//            University university= universityRepository.findByName(professionalDTO.getUniversityNames())
+//                    .orElseThrow(()->new EntityNotFoundException("University not found"));
+//
+//            professional.setUniversities();
+//        }
+
+        if (professionalDTO.getProfessionName() != null) {
+            Profession profession = professionRepository.findByName(professionalDTO.getProfessionName())
+                    .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
+
+            professional.setProfession(profession);
         }
 
-        if (professionalDTO.getAcademicCareerPathVideo() != null) {
-            professional.setAcademicCareerPathVideo(professionalDTO.getAcademicCareerPathVideo());
+        return professionalRepository.save(professional);
+    }
+
+    public Professional updateWrittenStory(String professionalUsername, String writtenStory) {
+        Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+        professional.setWrittenStory(writtenStory);
+
+        return professionalRepository.save(professional);
+    }
+
+    public Professional updateVideoStory(String professionalUsername, MultipartFile videoStory){
+        Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+
+        if (videoStory != null && !videoStory.isEmpty()) {
+            professional.setVideoStory(cloudinaryService.uploader(videoStory, "videoStories").get("url").toString());
         }
 
-        if (professionalDTO.getCurriculumVitae() != null) {
-            professional.setCurriculumVitae(professionalDTO.getCurriculumVitae());
+        return professionalRepository.save(professional);
+    }
+
+     public Professional updateCurriculumVitae(String professionalUsername, MultipartFile curriculumVitae){
+        Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+
+        if (curriculumVitae != null && !curriculumVitae.isEmpty()) {
+            professional.setCurriculumVitae(cloudinaryService.uploader(curriculumVitae, "curricula").get("url").toString());
         }
 
         return professionalRepository.save(professional);
