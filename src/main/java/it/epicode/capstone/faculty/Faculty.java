@@ -6,6 +6,7 @@ import it.epicode.capstone.degree_courses.DegreeCourse;
 import it.epicode.capstone.university.University;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class Faculty {
     private String name;
 
     @ManyToMany(mappedBy = "faculties", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<University> universities= new HashSet<>();
+    private Set<University> universities = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<DegreeCourse> degreeCourses = new HashSet<>();

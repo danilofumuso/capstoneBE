@@ -29,19 +29,23 @@ public class UniversityService {
 
     private Set<Faculty> processFaculties(Set<FacultyforUniversityDTO> facultiesDTO) {
         Set<Faculty> faculties = new HashSet<>();
+
         if (facultiesDTO != null) {
             facultiesDTO.forEach(facultyDTO -> {
                 Faculty faculty;
                 if (facultyDTO.getId() != null) {
                     faculty = facultyRepository.findById(facultyDTO.getId())
                             .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
+                System.out.println(faculty.getName());
                 } else {
                     faculty = new Faculty();
                     faculty.setName(facultyDTO.getName());
                 }
                 faculties.add(faculty);
+                System.out.println(faculties);
             });
         }
+        System.out.println(faculties);
         return faculties;
     }
 

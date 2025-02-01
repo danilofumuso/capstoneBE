@@ -1,6 +1,5 @@
 package it.epicode.capstone.university;
 
-import it.epicode.capstone.faculty.FacultyDTO;
 import it.epicode.capstone.faculty.FacultyforUniversityDTO;
 import lombok.Data;
 
