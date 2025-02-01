@@ -9,34 +9,34 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sectors")
+@RequestMapping("/api/sectors")
 public class SectorController {
 
     @Autowired
     private SectorService sectorService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<Sector>> getAllSectors(Pageable pageable) {
         return ResponseEntity.ok(sectorService.getAllSectors(pageable));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Sector> createSector(@RequestBody String sectorName) {
-        return new ResponseEntity<>(sectorService.createSector(sectorName), HttpStatus.CREATED);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Sector> createSector(@RequestBody SectorDTO sectorDTO) {
+        return new ResponseEntity<>(sectorService.createSector(sectorDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{sectorId}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Sector> updateSector(@PathVariable Long sectorId, @RequestBody String newSectorName) {
-        return ResponseEntity.ok(sectorService.updateSector(sectorId, newSectorName));
+    public ResponseEntity<Sector> updateSector(@PathVariable Long id, @RequestBody SectorDTO sectorDTO) {
+        return ResponseEntity.ok(sectorService.updateSector(id, sectorDTO));
     }
 
-    @DeleteMapping("/{sectorId}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteSector(@PathVariable Long sectorId) {
-        sectorService.deleteSector(sectorId);
+    public ResponseEntity<String> deleteSector(@PathVariable Long id) {
+        sectorService.deleteSector(id);
         return new ResponseEntity<>("Sector removed successfully", HttpStatus.NO_CONTENT);
     }
 }

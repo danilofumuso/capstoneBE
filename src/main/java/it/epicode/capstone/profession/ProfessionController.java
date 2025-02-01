@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/professions")
+@RequestMapping("/api/professions")
 public class ProfessionController {
 
     @Autowired
@@ -21,9 +21,9 @@ public class ProfessionController {
         return ResponseEntity.ok(professionService.getAllProfessions(pageable));
     }
 
-    @GetMapping("/professions_by_sector")
+    @GetMapping("/bySector")
     @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<Profession>> getAllProfessionsBySector(@RequestBody String sectorName, Pageable pageable) {
+    public ResponseEntity<Page<Profession>> getAllProfessionsBySector(@RequestParam String sectorName, Pageable pageable) {
         return ResponseEntity.ok(professionService.getAllProfessionsBySector(sectorName, pageable));
     }
 
@@ -34,19 +34,19 @@ public class ProfessionController {
         return ResponseEntity.ok(profession);
     }
 
-    @PutMapping("/{professionId}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Profession> updateProfession(
-            @PathVariable Long professionId,
+            @PathVariable Long id,
             @RequestBody ProfessionDTO professionDTO) {
-        Profession updatedProfession = professionService.updateProfession(professionId, professionDTO);
+        Profession updatedProfession = professionService.updateProfession(id, professionDTO);
         return ResponseEntity.ok(updatedProfession);
     }
 
-    @DeleteMapping("/{professionId}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteProfession(@PathVariable Long professionId) {
-        professionService.deleteProfession(professionId);
+    public ResponseEntity<String> deleteProfession(@PathVariable Long id) {
+        professionService.deleteProfession(id);
         return new ResponseEntity<>("Profession removed successfully", HttpStatus.NO_CONTENT);
     }
 

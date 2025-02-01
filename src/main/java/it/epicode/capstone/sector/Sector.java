@@ -21,6 +21,6 @@ public class Sector {
 
     private String name;
 
-    @OneToMany(mappedBy = "sector", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Profession> professions = new HashSet<>();
 }

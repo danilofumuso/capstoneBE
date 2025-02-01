@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ProfessionRepository extends JpaRepository<Profession,Long> {
 
-    Page<Profession> findBySectorName(String sectorName, Pageable pageable);
+    Page<Profession> findBySector_Name(String sectorName, Pageable pageable);
 
     boolean existsByName(String professionName);
 

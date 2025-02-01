@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/professionals")
+@RequestMapping("/api/professionals")
 public class ProfessionalController {
 
     @Autowired
@@ -30,15 +30,15 @@ public class ProfessionalController {
         return ResponseEntity.ok(professionalService.updateProfessional(professional.getUsername(), professionalDTO));
     }
 
-    @PatchMapping("/written_story")
+    @PatchMapping("/writtenStory")
     public ResponseEntity<Professional> updateWrittenStory(
             @AuthenticationPrincipal UserDetails professional,
-            @RequestBody String writtenStory) {
+            @RequestBody ProfessionalWrittenStoryDTO professionalWrittenStoryDTO) {
 
-        return ResponseEntity.ok(professionalService.updateWrittenStory(professional.getUsername(), writtenStory));
+        return ResponseEntity.ok(professionalService.updateWrittenStory(professional.getUsername(), professionalWrittenStoryDTO.getWrittenStory()));
     }
 
-    @PatchMapping(path = "/video_story", consumes = {"multipart/form-data"})
+    @PatchMapping(path = "/videoStory", consumes = {"multipart/form-data"})
     public ResponseEntity<Professional> updateVideoStory(
             @AuthenticationPrincipal UserDetails professional,
             @RequestParam(value = "videoStory", required = false) MultipartFile videoStory) {
@@ -46,7 +46,7 @@ public class ProfessionalController {
         return ResponseEntity.ok(professionalService.updateVideoStory(professional.getUsername(), videoStory));
     }
 
-    @PatchMapping(path = "/curriculum_vitae", consumes = {"multipart/form-data"})
+    @PatchMapping(path = "/curriculumVitae", consumes = {"multipart/form-data"})
     public ResponseEntity<Professional> updateCurriculumVitae(
             @AuthenticationPrincipal UserDetails professional,
             @RequestParam(value = "curriculumVitae", required = false) MultipartFile curriculumVitae) {
@@ -60,6 +60,5 @@ public class ProfessionalController {
         professionalService.deleteProfessional(professional.getUsername());
         return new ResponseEntity<>("Professional removed successfully", HttpStatus.NO_CONTENT);
     }
-
 
 }

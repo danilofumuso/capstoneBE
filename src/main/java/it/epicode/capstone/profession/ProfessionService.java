@@ -23,7 +23,7 @@ public class ProfessionService {
     }
 
     public Page<Profession> getAllProfessionsBySector(String sectorName, Pageable pageable) {
-        return professionRepository.findBySectorName(sectorName, pageable);
+        return professionRepository.findBySector_Name(sectorName, pageable);
     }
 
     public Profession createProfession(ProfessionDTO professionDTO) {
@@ -47,7 +47,7 @@ public class ProfessionService {
 
         profession.setName(professionDTO.getName());
         Sector sector = sectorRepository.findByName(professionDTO.getSectorName())
-                .orElseThrow(()-> new EntityNotFoundException("Sector not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
 
         profession.setSector(sector);
 

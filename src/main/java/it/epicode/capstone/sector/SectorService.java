@@ -17,21 +17,21 @@ public class SectorService {
         return sectorRepository.findAll(pageable);
     }
 
-    public Sector createSector(String sectorName) {
-        if (sectorRepository.existsByName(sectorName)) {
+    public Sector createSector(SectorDTO sectorDTO) {
+        if (sectorRepository.existsByName(sectorDTO.getName())) {
             throw new EntityExistsException("Sector already exists");
         }
         Sector sector = new Sector();
 
-        sector.setName(sectorName);
+        sector.setName(sectorDTO.getName());
         return sectorRepository.save(sector);
     }
 
-    public Sector updateSector(Long sectorId,String newSectorName) {
+    public Sector updateSector(Long sectorId,SectorDTO sectorDTO) {
         Sector sector = sectorRepository.findById(sectorId)
                 .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
 
-        sector.setName(newSectorName);
+        sector.setName(sectorDTO.getName());
         return sectorRepository.save(sector);
     }
 

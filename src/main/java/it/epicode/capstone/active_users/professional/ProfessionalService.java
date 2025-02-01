@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 @Service
 public class ProfessionalService {
@@ -71,7 +74,7 @@ public class ProfessionalService {
         }
 
         if (professionalDTO.getUniversitiesName() != null){
-            Set<University> universities= new HashSet<>();
+           Set<University> universities= new HashSet<>();
 
             for (String universityName : professionalDTO.getUniversitiesName()) {
                universityRepository.findByName(universityName).ifPresent(universities::add);

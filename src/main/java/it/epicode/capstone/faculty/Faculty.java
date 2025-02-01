@@ -1,8 +1,9 @@
-package it.epicode.capstone.university;
+package it.epicode.capstone.faculty;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import it.epicode.capstone.faculty.Faculty;
+import it.epicode.capstone.degree_courses.DegreeCourse;
+import it.epicode.capstone.university.University;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,16 +14,18 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "universities")
+@Table(name = "faculties")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class University {
+public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<Faculty> faculties = new HashSet<>();
+    @ManyToMany(mappedBy = "faculties", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<University> universities= new HashSet<>();
 
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<DegreeCourse> degreeCourses = new HashSet<>();
 }
