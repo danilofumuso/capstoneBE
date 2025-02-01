@@ -19,7 +19,7 @@ public class DegreeCourseService {
     }
 
     public Page<DegreeCourse> getAllDegreeCoursesByFaculty(String facultyName, Pageable pageable) {
-        return degreeCourseRepository.findByFaculty_Name(facultyName, pageable);
+        return degreeCourseRepository.findByFaculties_Name(facultyName, pageable);
     }
 
     @Transactional
