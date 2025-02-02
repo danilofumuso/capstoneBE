@@ -25,8 +25,12 @@ public class Professional {
     @MapsId
     private AppUser appUser;
 
-    @ManyToMany
-    private Set<University> universities = new HashSet<>();
+    private Set<String> universities = new HashSet<>();
+
+    private Set<String> faculties = new HashSet<>();
+
+    @Column(name = "degree_courses")
+    private Set<String> degreeCourses = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "profession_id")

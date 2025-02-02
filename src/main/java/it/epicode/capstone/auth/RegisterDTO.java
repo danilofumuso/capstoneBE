@@ -13,6 +13,8 @@ public class RegisterDTO {
     private String email;
     private String password;
     private Set<String> sectorsOfInterest;
-    private Set<String> universitiesName;
+    private Set<String> universitiesNames;
+    private Set<String> facultiesNames;
+    private Set<String> degreeCoursesNames;
     private String professionName;
 }

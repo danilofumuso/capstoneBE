@@ -73,14 +73,22 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-        if (professionalDTO.getUniversitiesName() != null){
-           Set<University> universities= new HashSet<>();
-
-            for (String universityName : professionalDTO.getUniversitiesName()) {
-               universityRepository.findByName(universityName).ifPresent(universities::add);
-            }
+        if (professionalDTO.getUniversitiesNames() != null) {
+            Set<String> universities = new HashSet<>(professionalDTO.getUniversitiesNames());
 
             professional.setUniversities(universities);
+        }
+
+        if (professionalDTO.getFacultiesNames() != null) {
+            Set<String> faculties = new HashSet<>(professionalDTO.getFacultiesNames());
+
+            professional.setFaculties(faculties);
+        }
+
+        if (professionalDTO.getDegreeCoursesNames() != null) {
+            Set<String> degreeCourses = new HashSet<>(professionalDTO.getDegreeCoursesNames());
+
+            professional.setDegreeCourses(degreeCourses);
         }
 
         if (professionalDTO.getProfessionName() != null) {
@@ -101,7 +109,7 @@ public class ProfessionalService {
         return professionalRepository.save(professional);
     }
 
-    public Professional updateVideoStory(String professionalUsername, MultipartFile videoStory){
+    public Professional updateVideoStory(String professionalUsername, MultipartFile videoStory) {
         Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 
@@ -112,7 +120,7 @@ public class ProfessionalService {
         return professionalRepository.save(professional);
     }
 
-     public Professional updateCurriculumVitae(String professionalUsername, MultipartFile curriculumVitae){
+    public Professional updateCurriculumVitae(String professionalUsername, MultipartFile curriculumVitae) {
         Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 

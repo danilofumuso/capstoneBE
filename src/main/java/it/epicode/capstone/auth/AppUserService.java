@@ -95,14 +95,22 @@ public class AppUserService {
             Professional professional = new Professional();
             professional.setAppUser(appUser);
 
-            if (registerDTO.getUniversitiesName() != null) {
-                Set<University> universities = new HashSet<>();
-
-                for (String universityName : registerDTO.getUniversitiesName()) {
-                    universityRepository.findByName(universityName).ifPresent(universities::add);
-                }
+            if (registerDTO.getUniversitiesNames() != null) {
+                Set<String> universities = new HashSet<>(registerDTO.getUniversitiesNames());
 
                 professional.setUniversities(universities);
+            }
+
+            if (registerDTO.getFacultiesNames() != null) {
+                Set<String> faculties = new HashSet<>(registerDTO.getFacultiesNames());
+
+                professional.setFaculties(faculties);
+            }
+
+            if (registerDTO.getDegreeCoursesNames() != null) {
+                Set<String> degreeCourses = new HashSet<>(registerDTO.getDegreeCoursesNames());
+
+                professional.setDegreeCourses(degreeCourses);
             }
 
             if (registerDTO.getProfessionName() != null) {
