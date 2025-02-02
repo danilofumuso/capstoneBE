@@ -1,8 +1,8 @@
 package it.epicode.capstone.university;
 
 import it.epicode.capstone.faculty.Faculty;
+import it.epicode.capstone.faculty.FacultyDTO;
 import it.epicode.capstone.faculty.FacultyRepository;
-import it.epicode.capstone.faculty.FacultyforUniversityDTO;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,40 +27,22 @@ public class UniversityService {
         return universityRepository.findAll(pageable);
     }
 
-    private Set<Faculty> processFaculties(Set<FacultyforUniversityDTO> facultiesDTO) {
-        Set<Faculty> faculties = new HashSet<>();
-
-        if (facultiesDTO != null) {
-            facultiesDTO.forEach(facultyDTO -> {
-                Faculty faculty;
-                if (facultyDTO.getId() != null) {
-                    faculty = facultyRepository.findById(facultyDTO.getId())
-                            .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
-                System.out.println(faculty.getName());
-                } else {
-                    faculty = new Faculty();
-                    faculty.setName(facultyDTO.getName());
-                }
-                faculties.add(faculty);
-                System.out.println(faculties);
-            });
-        }
-        System.out.println(faculties);
-        return faculties;
-    }
-
     @Transactional
     public University createUniversity(UniversityDTO universityDTO) {
         if (universityRepository.existsByName(universityDTO.getName())) {
             throw new EntityExistsException("University already exists");
         }
-
         University university = new University();
         university.setName(universityDTO.getName());
 
-        if (universityDTO.getFaculties() != null) {
-            Set<Faculty> faculties = processFaculties(universityDTO.getFaculties());
-            university.getFaculties().addAll(faculties);
+        if (universityDTO.getFacultiesId() != null) {
+            Set<Faculty> faculties = new HashSet<>();
+            for (Long facultyId : universityDTO.getFacultiesId()) {
+                Faculty faculty = facultyRepository.findById(facultyId)
+                        .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
+                faculties.add(faculty);
+            }
+            university.setFaculties(faculties);
         }
         return universityRepository.save(university);
     }
@@ -74,11 +56,17 @@ public class UniversityService {
             university.setName(universityDTO.getName());
         }
 
-        if (universityDTO.getFaculties() != null) {
-            Set<Faculty> facultiesToAdd = processFaculties(universityDTO.getFaculties());
-            university.getFaculties().addAll(facultiesToAdd);
-        }
+        if (universityDTO.getFacultiesId() != null) {
+            Set<Faculty> existingFaculties = university.getFaculties();
+            Set<Faculty> updatedFaculties = new HashSet<>(existingFaculties);
 
+            for (Long facultyId : universityDTO.getFacultiesId()) {
+                Faculty faculty = facultyRepository.findById(facultyId)
+                        .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
+                updatedFaculties.add(faculty);
+            }
+            university.setFaculties(updatedFaculties);
+        }
         return universityRepository.save(university);
     }
 

@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FacultyRepository extends JpaRepository<Faculty,Long> {
 
-    Page<Faculty> findByUniversities_Name(String universityName, Pageable pageable);
-
     boolean existsByName(String name);
 }

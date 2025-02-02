@@ -12,7 +12,6 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "degree_courses")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DegreeCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +19,4 @@ public class DegreeCourse {
 
     private String name;
 
-    @ManyToMany(mappedBy = "degreeCourses", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<Faculty> faculties = new HashSet<>();
 }

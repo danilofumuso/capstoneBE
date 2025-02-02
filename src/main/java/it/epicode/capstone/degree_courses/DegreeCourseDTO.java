@@ -6,5 +6,4 @@ import lombok.Data;
 public class DegreeCourseDTO {
     private Long id;
     private String name;
-
 }

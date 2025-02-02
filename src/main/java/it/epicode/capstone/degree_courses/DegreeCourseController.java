@@ -21,12 +21,6 @@ public class DegreeCourseController {
         return ResponseEntity.ok(degreeCourseService.getAllDegreeCourses(pageable));
     }
 
-    @GetMapping("/byFaculty")
-    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<DegreeCourse>> getAllDegreeCoursesByFaculty(@RequestParam String facultyName, Pageable pageable) {
-        return ResponseEntity.ok(degreeCourseService.getAllDegreeCoursesByFaculty(facultyName, pageable));
-    }
-
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<DegreeCourse> createDegreeCourse(@RequestBody DegreeCourseDTO degreeCourseDTO) {

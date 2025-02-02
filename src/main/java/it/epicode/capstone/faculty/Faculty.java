@@ -16,16 +16,12 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "faculties")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    @ManyToMany(mappedBy = "faculties", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<University> universities = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<DegreeCourse> degreeCourses = new HashSet<>();

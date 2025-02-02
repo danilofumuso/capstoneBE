@@ -18,10 +18,6 @@ public class DegreeCourseService {
         return degreeCourseRepository.findAll(pageable);
     }
 
-    public Page<DegreeCourse> getAllDegreeCoursesByFaculty(String facultyName, Pageable pageable) {
-        return degreeCourseRepository.findByFaculties_Name(facultyName, pageable);
-    }
-
     @Transactional
     public DegreeCourse createDegreeCourse(DegreeCourseDTO degreeCourseDTO) {
         DegreeCourse degreeCourse = new DegreeCourse();

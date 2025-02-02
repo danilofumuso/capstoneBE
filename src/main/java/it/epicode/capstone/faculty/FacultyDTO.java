@@ -9,5 +9,5 @@ import java.util.Set;
 public class FacultyDTO {
     private Long id;
     private String name;
-    private Set<DegreeCourseDTO> degreeCourses;
+    private Set<Long> degreeCoursesId;
 }

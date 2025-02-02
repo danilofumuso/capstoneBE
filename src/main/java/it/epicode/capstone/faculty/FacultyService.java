@@ -28,28 +28,6 @@ public class FacultyService {
         return facultyRepository.findAll(pageable);
     }
 
-    public Page<Faculty> getAllFacultiesByUniversity(String universityName, Pageable pageable) {
-        return facultyRepository.findByUniversities_Name(universityName, pageable);
-    }
-
-    private Set<DegreeCourse> processDegreeCourses(Set<DegreeCourseDTO> degreeCourseDTOs) {
-        Set<DegreeCourse> degreeCourses = new HashSet<>();
-        if (degreeCourseDTOs != null) {
-            degreeCourseDTOs.forEach(degreeCourseDTO -> {
-                DegreeCourse degreeCourse;
-                if (degreeCourseDTO.getId() != null) {
-                    degreeCourse = degreeCourseRepository.findById(degreeCourseDTO.getId())
-                            .orElseThrow(() -> new EntityNotFoundException("DegreeCourse not found"));
-                } else {
-                    degreeCourse = new DegreeCourse();
-                    degreeCourse.setName(degreeCourseDTO.getName());
-                }
-                degreeCourses.add(degreeCourse);
-            });
-        }
-        return degreeCourses;
-    }
-
     @Transactional
     public Faculty createFaculty(FacultyDTO facultyDTO) {
         if (facultyRepository.existsByName(facultyDTO.getName())) {
@@ -58,11 +36,15 @@ public class FacultyService {
         Faculty faculty = new Faculty();
         faculty.setName(facultyDTO.getName());
 
-        if (facultyDTO.getDegreeCourses() != null) {
-            Set<DegreeCourse> degreeCourses = processDegreeCourses(facultyDTO.getDegreeCourses());
-            faculty.getDegreeCourses().addAll(degreeCourses);
+        if (facultyDTO.getDegreeCoursesId() != null) {
+            Set<DegreeCourse> degreeCourses = new HashSet<>();
+            for (Long courseId : facultyDTO.getDegreeCoursesId()) {
+                DegreeCourse degreeCourse = degreeCourseRepository.findById(courseId)
+                        .orElseThrow(() -> new EntityNotFoundException("DegreeCourse not found"));
+                degreeCourses.add(degreeCourse);
+            }
+            faculty.setDegreeCourses(degreeCourses);
         }
-
         return facultyRepository.save(faculty);
     }
 
@@ -74,11 +56,18 @@ public class FacultyService {
         if (facultyDTO.getName() != null) {
             faculty.setName(facultyDTO.getName());
         }
-        if (facultyDTO.getDegreeCourses() != null) {
-            Set<DegreeCourse> degreeCourses = processDegreeCourses(facultyDTO.getDegreeCourses());
-            faculty.getDegreeCourses().addAll(degreeCourses);
-        }
 
+        if (facultyDTO.getDegreeCoursesId() != null) {
+            Set<DegreeCourse> existingCourses = faculty.getDegreeCourses();
+            Set<DegreeCourse> updatedCourses = new HashSet<>(existingCourses);
+
+            for (Long courseId : facultyDTO.getDegreeCoursesId()) {
+                DegreeCourse degreeCourse = degreeCourseRepository.findById(courseId)
+                        .orElseThrow(() -> new EntityNotFoundException("DegreeCourse not found"));
+                updatedCourses.add(degreeCourse);
+            }
+            faculty.setDegreeCourses(updatedCourses);
+        }
         return facultyRepository.save(faculty);
     }
 

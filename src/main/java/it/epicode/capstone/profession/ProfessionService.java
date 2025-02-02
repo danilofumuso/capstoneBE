@@ -31,12 +31,14 @@ public class ProfessionService {
             throw new EntityExistsException("Profession already exists");
         }
 
-        Sector sector = sectorRepository.findByName(professionDTO.getSectorName())
-                .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
-
         Profession profession = new Profession();
         profession.setName(professionDTO.getName());
-        profession.setSector(sector);
+
+        if (professionDTO.getSectorId() != null) {
+            Sector sector = sectorRepository.findById(professionDTO.getSectorId())
+                    .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
+            profession.setSector(sector);
+        }
 
         return professionRepository.save(profession);
     }
@@ -45,11 +47,15 @@ public class ProfessionService {
         Profession profession = professionRepository.findById(professionId)
                 .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
 
-        profession.setName(professionDTO.getName());
-        Sector sector = sectorRepository.findByName(professionDTO.getSectorName())
-                .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
+        if (professionDTO.getName() != null) {
+            profession.setName(professionDTO.getName());
+        }
 
-        profession.setSector(sector);
+        if (professionDTO.getSectorId() != null) {
+            Sector sector = sectorRepository.findById(professionDTO.getSectorId())
+                    .orElseThrow(() -> new EntityNotFoundException("Sector not found"));
+            profession.setSector(sector);
+        }
 
         return professionRepository.save(profession);
     }

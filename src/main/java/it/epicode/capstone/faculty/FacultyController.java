@@ -21,12 +21,6 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.getAllFaculties(pageable));
     }
 
-    @GetMapping("/byUniversity")
-    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<Faculty>> getAllFacultiesByUniversity(@RequestParam String universityName, Pageable pageable) {
-        return ResponseEntity.ok(facultyService.getAllFacultiesByUniversity(universityName, pageable));
-    }
-
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Faculty> createFaculty(@RequestBody FacultyDTO facultyDTO) {

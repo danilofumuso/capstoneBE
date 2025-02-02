@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ProfessionDTO {
     private String name;
-    private String sectorName;
+    private Long sectorId;
 }

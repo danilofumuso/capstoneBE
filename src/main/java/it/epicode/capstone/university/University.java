@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "universities")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class University {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
