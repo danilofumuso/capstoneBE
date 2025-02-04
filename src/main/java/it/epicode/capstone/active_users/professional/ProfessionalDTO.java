@@ -1,8 +1,10 @@
 package it.epicode.capstone.active_users.professional;
 
+import it.epicode.capstone.educational_path.EducationalPathDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -13,8 +15,6 @@ public class ProfessionalDTO {
     private String username;
     private String email;
     private String password;
-    private Set<String> universitiesNames;
-    private Set<String> facultiesNames;
-    private Set<String> degreeCoursesNames;
+    private List<EducationalPathDTO> educationalPaths;
     private String professionName;
 }

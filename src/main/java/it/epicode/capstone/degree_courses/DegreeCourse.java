@@ -1,13 +1,7 @@
 package it.epicode.capstone.degree_courses;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import it.epicode.capstone.faculty.Faculty;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Entity
@@ -18,5 +12,6 @@ public class DegreeCourse {
     private Long id;
 
     private String name;
+
 
 }

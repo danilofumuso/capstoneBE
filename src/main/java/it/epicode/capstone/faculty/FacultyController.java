@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/faculties")
 public class FacultyController {
@@ -19,6 +21,11 @@ public class FacultyController {
     @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<Faculty>> getAllFaculties(Pageable pageable) {
         return ResponseEntity.ok(facultyService.getAllFaculties(pageable));
+    }
+
+    @GetMapping("/byUniversity")
+    public ResponseEntity<List<Faculty>> getFacultiesByUniversity(@RequestParam Long universityId) {
+        return ResponseEntity.ok(facultyService.getFacultiesByUniversity(universityId));
     }
 
     @PostMapping

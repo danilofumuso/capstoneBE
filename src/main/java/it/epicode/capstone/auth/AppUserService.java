@@ -5,6 +5,12 @@ import it.epicode.capstone.active_users.professional.ProfessionalRepository;
 import it.epicode.capstone.active_users.student.Student;
 import it.epicode.capstone.active_users.student.StudentRepository;
 import it.epicode.capstone.cloudinary.CloudinaryService;
+import it.epicode.capstone.degree_courses.DegreeCourse;
+import it.epicode.capstone.degree_courses.DegreeCourseRepository;
+import it.epicode.capstone.educational_path.EducationalPath;
+import it.epicode.capstone.educational_path.EducationalPathDTO;
+import it.epicode.capstone.faculty.Faculty;
+import it.epicode.capstone.faculty.FacultyRepository;
 import it.epicode.capstone.profession.Profession;
 import it.epicode.capstone.profession.ProfessionRepository;
 import it.epicode.capstone.sector.Sector;
@@ -60,6 +66,12 @@ public class AppUserService {
     private UniversityRepository universityRepository;
 
     @Autowired
+    private FacultyRepository facultyRepository;
+
+    @Autowired
+    private DegreeCourseRepository degreeCourseRepository;
+
+    @Autowired
     private ProfessionRepository professionRepository;
 
     @Transactional
@@ -95,22 +107,22 @@ public class AppUserService {
             Professional professional = new Professional();
             professional.setAppUser(appUser);
 
-            if (registerDTO.getUniversitiesNames() != null) {
-                Set<String> universities = new HashSet<>(registerDTO.getUniversitiesNames());
+            if (registerDTO.getEducationalPaths() != null && !registerDTO.getEducationalPaths().isEmpty()) {
+                for (EducationalPathDTO educationalPathDTO : registerDTO.getEducationalPaths()) {
+                    University university = universityRepository.findById(educationalPathDTO.getUniversityId())
+                            .orElseThrow(() -> new EntityNotFoundException("University not found"));
 
-                professional.setUniversities(universities);
-            }
+                    Faculty faculty = facultyRepository.findById(educationalPathDTO.getFacultyId())
+                            .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
 
-            if (registerDTO.getFacultiesNames() != null) {
-                Set<String> faculties = new HashSet<>(registerDTO.getFacultiesNames());
+                    DegreeCourse degreeCourse = degreeCourseRepository.findById(educationalPathDTO.getDegreeCourseId())
+                            .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-                professional.setFaculties(faculties);
-            }
-
-            if (registerDTO.getDegreeCoursesNames() != null) {
-                Set<String> degreeCourses = new HashSet<>(registerDTO.getDegreeCoursesNames());
-
-                professional.setDegreeCourses(degreeCourses);
+                    EducationalPath educationalPath = new EducationalPath(professional, university, faculty, degreeCourse);
+                    if (!professional.getEducationalPaths().contains(educationalPath)) {
+                        professional.addEducationalPath(educationalPath);
+                    }
+                }
             }
 
             if (registerDTO.getProfessionName() != null) {

@@ -1,7 +1,6 @@
 package it.epicode.capstone.university;
 
 import it.epicode.capstone.faculty.Faculty;
-import it.epicode.capstone.faculty.FacultyDTO;
 import it.epicode.capstone.faculty.FacultyRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;

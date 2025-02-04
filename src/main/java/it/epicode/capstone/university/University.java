@@ -1,14 +1,10 @@
 package it.epicode.capstone.university;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import it.epicode.capstone.faculty.Faculty;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data

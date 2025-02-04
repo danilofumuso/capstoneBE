@@ -3,12 +3,13 @@ package it.epicode.capstone.active_users.professional;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import it.epicode.capstone.auth.AppUser;
+import it.epicode.capstone.educational_path.EducationalPath;
 import it.epicode.capstone.profession.Profession;
-import it.epicode.capstone.university.University;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -25,12 +26,8 @@ public class Professional {
     @MapsId
     private AppUser appUser;
 
-    private Set<String> universities = new HashSet<>();
-
-    private Set<String> faculties = new HashSet<>();
-
-    @Column(name = "degree_courses")
-    private Set<String> degreeCourses = new HashSet<>();
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EducationalPath> educationalPaths = new LinkedHashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "profession_id")
@@ -45,4 +42,8 @@ public class Professional {
     @Column(name = "curriculum_vitae")
     private String curriculumVitae;
 
+    public void addEducationalPath(EducationalPath path) {
+        this.educationalPaths.add(path);
+        path.setProfessional(this);
+    }
 }

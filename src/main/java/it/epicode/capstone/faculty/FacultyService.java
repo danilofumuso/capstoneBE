@@ -1,8 +1,8 @@
 package it.epicode.capstone.faculty;
 
 import it.epicode.capstone.degree_courses.DegreeCourse;
-import it.epicode.capstone.degree_courses.DegreeCourseDTO;
 import it.epicode.capstone.degree_courses.DegreeCourseRepository;
+import it.epicode.capstone.university.UniversityRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -23,9 +24,15 @@ public class FacultyService {
     @Autowired
     private DegreeCourseRepository degreeCourseRepository;
 
+    @Autowired
+    private UniversityRepository universityRepository;
 
     public Page<Faculty> getAllFaculties(Pageable pageable) {
         return facultyRepository.findAll(pageable);
+    }
+
+    public List<Faculty> getFacultiesByUniversity(Long universityId) {
+        return universityRepository.findFacultiesByUniversityId(universityId);
     }
 
     @Transactional

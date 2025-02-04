@@ -24,6 +24,7 @@ public class Student {
     private AppUser appUser;
 
     @ManyToMany
+    @JsonIgnore
     private Set<Sector> sectorsOfInterest = new HashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
