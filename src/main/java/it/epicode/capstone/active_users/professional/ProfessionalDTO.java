@@ -15,6 +15,5 @@ public class ProfessionalDTO {
     private String username;
     private String email;
     private String password;
-    private List<EducationalPathDTO> educationalPaths;
     private String professionName;
 }

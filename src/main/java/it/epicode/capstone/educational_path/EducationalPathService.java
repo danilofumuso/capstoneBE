@@ -12,6 +12,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,10 +34,7 @@ public class EducationalPathService {
     @Autowired
     private DegreeCourseRepository degreeCourseRepository;
 
-    public List<EducationalPath> getProfessionalEducationalPaths(String professionalUsername) {
-        return educationalPathRepository.findByProfessionalAppUserUsername(professionalUsername);
-    }
-
+    @Transactional
     public EducationalPath addEducationalPath(String professionalUsername, EducationalPathDTO educationalPathDTO) {
         if (educationalPathRepository.existsByProfessionalAppUserUsernameAndDegreeCourseId(professionalUsername, educationalPathDTO.getDegreeCourseId())) {
             throw new EntityExistsException("This Educational Path already exists");
@@ -62,13 +60,13 @@ public class EducationalPathService {
         return newEducationalPath;
     }
 
+    @Transactional
     public void removeEducationalPath(String professionalUsername, Long educationalPathId) {
         EducationalPath educationalPathToRemove = educationalPathRepository.findByProfessionalAppUserUsernameAndId(professionalUsername, educationalPathId)
                 .orElseThrow(() -> new EntityNotFoundException("Educational Path not found"));
 
         educationalPathRepository.delete(educationalPathToRemove);
     }
-
 
 }
 

@@ -85,24 +85,6 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-        if (professionalDTO.getEducationalPaths() != null && !professionalDTO.getEducationalPaths().isEmpty()) {
-            for (EducationalPathDTO educationalPathDTO : professionalDTO.getEducationalPaths()) {
-                University university = universityRepository.findById(educationalPathDTO.getUniversityId())
-                        .orElseThrow(() -> new EntityNotFoundException("University not found"));
-
-                Faculty faculty = facultyRepository.findById(educationalPathDTO.getFacultyId())
-                        .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
-
-                DegreeCourse degreeCourse = degreeCourseRepository.findById(educationalPathDTO.getDegreeCourseId())
-                        .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-
-                EducationalPath educationalPath = new EducationalPath(professional, university, faculty, degreeCourse);
-                if (!professional.getEducationalPaths().contains(educationalPath)) {
-                    professional.addEducationalPath(educationalPath);
-                }
-            }
-        }
-
         if (professionalDTO.getProfessionName() != null) {
             Profession profession = professionRepository.findByName(professionalDTO.getProfessionName())
                     .orElseThrow(() -> new EntityNotFoundException("Profession not found"));

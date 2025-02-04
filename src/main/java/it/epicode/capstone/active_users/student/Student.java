@@ -7,7 +7,7 @@ import it.epicode.capstone.sector.Sector;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -24,10 +24,8 @@ public class Student {
     private AppUser appUser;
 
     @ManyToMany
-    @JsonIgnore
-    private Set<Sector> sectorsOfInterest = new HashSet<>();
+    private Set<Sector> sectorsOfInterest = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<Favourite> favorites = new HashSet<>();
+    private Set<Favourite> favorites = new LinkedHashSet<>();
 }

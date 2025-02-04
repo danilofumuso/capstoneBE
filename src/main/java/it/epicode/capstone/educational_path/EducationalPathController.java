@@ -17,12 +17,6 @@ public class EducationalPathController {
     @Autowired
     private EducationalPathService educationalPathService;
 
-    @GetMapping
-    @PreAuthorize("hasRole('ROLE_PROFESSIONAL')")
-    public ResponseEntity<List<EducationalPath>> getEducationalPaths(@AuthenticationPrincipal UserDetails professional) {
-        return ResponseEntity.ok(educationalPathService.getProfessionalEducationalPaths(professional.getUsername()));
-    }
-
     @PostMapping
     @PreAuthorize("hasRole('ROLE_PROFESSIONAL')")
     public ResponseEntity<EducationalPath> addEducationalPath(
