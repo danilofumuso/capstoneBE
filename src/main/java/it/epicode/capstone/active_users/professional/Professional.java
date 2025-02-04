@@ -7,13 +7,14 @@ import it.epicode.capstone.educational_path.EducationalPath;
 import it.epicode.capstone.profession.Profession;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "professionals")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -27,6 +28,7 @@ public class Professional {
     private AppUser appUser;
 
     @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private Set<EducationalPath> educationalPaths = new LinkedHashSet<>();
 
     @ManyToOne
