@@ -22,7 +22,7 @@ public class AuthController {
 
     @PostMapping(path = "/register", consumes = {"multipart/form-data"})
     public ResponseEntity<AppUser> registerAdmin(@RequestParam("appUser") String appUser,
-                                                   @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture){
+                                                 @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture) {
 
         RegisterDTO registerDTO;
 
@@ -38,7 +38,7 @@ public class AuthController {
 
     @PostMapping(path = "/register/student", consumes = {"multipart/form-data"})
     public ResponseEntity<AppUser> registerStudent(@RequestParam("appUser") String appUser,
-                                                   @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture){
+                                                   @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture) {
 
         RegisterDTO registerDTO;
 
@@ -52,9 +52,9 @@ public class AuthController {
 
     }
 
-     @PostMapping(path = "/register/professional", consumes = {"multipart/form-data"})
+    @PostMapping(path = "/register/professional", consumes = {"multipart/form-data"})
     public ResponseEntity<AppUser> registerProfessionista(@RequestParam("appUser") String appUser,
-                                            @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture){
+                                                          @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture) {
 
         RegisterDTO registerDTO;
 

@@ -92,11 +92,11 @@ public class AppUserService {
         if (roles.contains(Role.ROLE_STUDENT)) {
             Student student = new Student();
             student.setAppUser(appUser);
-            if (registerDTO.getSectorsOfInterest() != null) {
+            if (registerDTO.getSectorsOfInterestId() != null) {
                 Set<Sector> sectors = new HashSet<>();
 
-                for (String sectorName : registerDTO.getSectorsOfInterest()) {
-                    sectorRepository.findByName(sectorName).ifPresent(sectors::add);
+                for (Long sectorId : registerDTO.getSectorsOfInterestId()) {
+                    sectorRepository.findById(sectorId).ifPresent(sectors::add);
                 }
 
                 student.setSectorsOfInterest(sectors);
@@ -125,8 +125,8 @@ public class AppUserService {
                 }
             }
 
-            if (registerDTO.getProfessionName() != null) {
-                Profession profession = professionRepository.findByName(registerDTO.getProfessionName())
+            if (registerDTO.getProfessionId() != null) {
+                Profession profession = professionRepository.findById(registerDTO.getProfessionId())
                         .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
 
                 professional.setProfession(profession);

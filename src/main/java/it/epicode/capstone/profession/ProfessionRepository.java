@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProfessionRepository extends JpaRepository<Profession, Long> {
-    List<Profession> findBySector_Name(String sectorName);
+    List<Profession> findBySector_Id(Long sectorId);
 
     boolean existsByName(String professionName);
 

@@ -15,8 +15,8 @@ public class RegisterDTO {
     private String email;
     private String password;
 
-    private Set<String> sectorsOfInterest;
+    private Set<Long> sectorsOfInterestId;
 
     private List<EducationalPathDTO> educationalPaths;
-    private String professionName;
+    private Long professionId;
 }

@@ -13,5 +13,5 @@ public class StudentDTO {
     private String username;
     private String email;
     private String password;
-    private Set<String> sectorsOfInterest;
+    private Set<Long> sectorsOfInterestId;
 }

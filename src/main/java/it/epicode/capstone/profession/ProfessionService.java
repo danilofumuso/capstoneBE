@@ -24,8 +24,8 @@ public class ProfessionService {
         return professionRepository.findAll(pageable);
     }
 
-    public List<Profession> getAllProfessionsBySector(String sectorName) {
-        return professionRepository.findBySector_Name(sectorName);
+    public List<Profession> getAllProfessionsBySector(Long sectorId) {
+        return professionRepository.findBySector_Id(sectorId);
     }
 
     public Profession createProfession(ProfessionDTO professionDTO) {

@@ -54,11 +54,11 @@ public class StudentService {
             appUser.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
         }
 
-        if (studentDTO.getSectorsOfInterest() != null) {
+        if (studentDTO.getSectorsOfInterestId() != null) {
             Set<Sector> sectors = new HashSet<>();
 
-            for (String sectorName : studentDTO.getSectorsOfInterest()) {
-                sectorRepository.findByName(sectorName).ifPresent(sectors::add);
+            for (Long sectorId : studentDTO.getSectorsOfInterestId()) {
+                sectorRepository.findById(sectorId).ifPresent(sectors::add);
             }
 
             student.setSectorsOfInterest(sectors);

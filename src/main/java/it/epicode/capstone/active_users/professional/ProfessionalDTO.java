@@ -15,5 +15,5 @@ public class ProfessionalDTO {
     private String username;
     private String email;
     private String password;
-    private String professionName;
+    private Long professionId;
 }

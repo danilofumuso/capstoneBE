@@ -85,8 +85,8 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-        if (professionalDTO.getProfessionName() != null) {
-            Profession profession = professionRepository.findByName(professionalDTO.getProfessionName())
+        if (professionalDTO.getProfessionId() != null) {
+            Profession profession = professionRepository.findById(professionalDTO.getProfessionId())
                     .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
 
             professional.setProfession(profession);

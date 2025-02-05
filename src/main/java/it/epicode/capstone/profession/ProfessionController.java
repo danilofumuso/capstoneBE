@@ -24,8 +24,8 @@ public class ProfessionController {
     }
 
     @GetMapping("/bySector")
-    public ResponseEntity<List<Profession>> getAllProfessionsBySector(@RequestParam String sectorName) {
-        return ResponseEntity.ok(professionService.getAllProfessionsBySector(sectorName));
+    public ResponseEntity<List<Profession>> getAllProfessionsBySector(@RequestParam Long sectorId) {
+        return ResponseEntity.ok(professionService.getAllProfessionsBySector(sectorId));
     }
 
     @PostMapping
