@@ -1,12 +1,12 @@
 package it.epicode.capstone.sector;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/sectors")
@@ -16,9 +16,8 @@ public class SectorController {
     private SectorService sectorService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<Sector>> getAllSectors(Pageable pageable) {
-        return ResponseEntity.ok(sectorService.getAllSectors(pageable));
+    public ResponseEntity<List<Sector>> getAllSectors() {
+        return ResponseEntity.ok(sectorService.getAllSectors());
     }
 
     @PostMapping

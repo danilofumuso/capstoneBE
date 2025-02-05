@@ -7,14 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SectorService {
 
     @Autowired
     private SectorRepository sectorRepository;
 
-    public Page<Sector> getAllSectors(Pageable pageable) {
-        return sectorRepository.findAll(pageable);
+    public List<Sector> getAllSectors() {
+        return sectorRepository.findAll();
     }
 
     public Sector createSector(SectorDTO sectorDTO) {

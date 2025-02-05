@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProfessionService {
 
@@ -22,8 +24,8 @@ public class ProfessionService {
         return professionRepository.findAll(pageable);
     }
 
-    public Page<Profession> getAllProfessionsBySector(String sectorName, Pageable pageable) {
-        return professionRepository.findBySector_Name(sectorName, pageable);
+    public List<Profession> getAllProfessionsBySector(String sectorName) {
+        return professionRepository.findBySector_Name(sectorName);
     }
 
     public Profession createProfession(ProfessionDTO professionDTO) {

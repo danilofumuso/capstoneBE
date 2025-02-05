@@ -18,7 +18,6 @@ public class DegreeCourseController {
     private DegreeCourseService degreeCourseService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<DegreeCourse>> getAllDegreeCourses(Pageable pageable) {
         return ResponseEntity.ok(degreeCourseService.getAllDegreeCourses(pageable));
     }

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/universities")
 public class UniversityController {
@@ -15,9 +17,8 @@ public class UniversityController {
     private UniversityService universityService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<University>> getAllUniversities(Pageable pageable) {
-        return ResponseEntity.ok(universityService.getAllUniversities(pageable));
+    public ResponseEntity<List<University>> getAllUniversities() {
+        return ResponseEntity.ok(universityService.getAllUniversities());
     }
 
     @PostMapping

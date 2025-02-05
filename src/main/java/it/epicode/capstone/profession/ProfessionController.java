@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/professions")
 public class ProfessionController {
@@ -22,9 +24,8 @@ public class ProfessionController {
     }
 
     @GetMapping("/bySector")
-    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<Profession>> getAllProfessionsBySector(@RequestParam String sectorName, Pageable pageable) {
-        return ResponseEntity.ok(professionService.getAllProfessionsBySector(sectorName, pageable));
+    public ResponseEntity<List<Profession>> getAllProfessionsBySector(@RequestParam String sectorName) {
+        return ResponseEntity.ok(professionService.getAllProfessionsBySector(sectorName));
     }
 
     @PostMapping
