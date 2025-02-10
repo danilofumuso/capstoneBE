@@ -166,7 +166,7 @@ public class AppUserService {
 
     public AppUser loadUserByUsername(String username) {
         return appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
     }
 }

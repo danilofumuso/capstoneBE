@@ -1,5 +1,7 @@
 package it.epicode.capstone.active_users.professional;
 
+import it.epicode.capstone.educational_path.EducationalPathDTO;
+import it.epicode.capstone.profession.ProfessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,26 @@ public class ProfessionalController {
     @PreAuthorize("hasRole('ROLE_PROFESSIONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Professional> updateProfessional(@AuthenticationPrincipal UserDetails professional, @RequestBody ProfessionalDTO professionalDTO) {
         return ResponseEntity.ok(professionalService.updateProfessional(professional.getUsername(), professionalDTO));
+    }
+
+    @PatchMapping("/educationalPath")
+    public ResponseEntity<Professional> updateEducationalPath(@AuthenticationPrincipal UserDetails professional, @RequestBody EducationalPathDTO educationalPathDTO) {
+        return ResponseEntity.ok(professionalService.updateEducationalPath(professional.getUsername(), educationalPathDTO));
+    }
+
+    @PatchMapping("/profession")
+    public ResponseEntity<Professional> updateProfession(UserDetails professional,
+                                                         @RequestBody ProfessionDTO professionDTO) {
+
+        return ResponseEntity.ok(professionalService.updateProfession(professional.getUsername(), professionDTO));
+    }
+
+    @PatchMapping(path = "/profilePicture", consumes = {"multipart/form-data"})
+    public ResponseEntity<Professional> updateProfilePicture(
+            @AuthenticationPrincipal UserDetails professional,
+            @RequestParam(value = "profilePicture", required = false) MultipartFile profilePicture) {
+
+        return ResponseEntity.ok(professionalService.updateProfilePicture(professional.getUsername(), profilePicture));
     }
 
     @PatchMapping("/writtenStory")

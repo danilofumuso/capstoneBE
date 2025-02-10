@@ -9,6 +9,7 @@ import it.epicode.capstone.educational_path.EducationalPathDTO;
 import it.epicode.capstone.faculty.Faculty;
 import it.epicode.capstone.faculty.FacultyRepository;
 import it.epicode.capstone.profession.Profession;
+import it.epicode.capstone.profession.ProfessionDTO;
 import it.epicode.capstone.profession.ProfessionRepository;
 import it.epicode.capstone.university.University;
 import it.epicode.capstone.university.UniversityRepository;
@@ -85,20 +86,71 @@ public class ProfessionalService {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
-        if (professionalDTO.getProfessionId() != null) {
-            Profession profession = professionRepository.findById(professionalDTO.getProfessionId())
-                    .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
+        return professionalRepository.save(professional);
+    }
 
+    public Professional updateEducationalPath(String professionalUsername, EducationalPathDTO educationalPathDTO) {
+        Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+
+        if (educationalPathDTO.getUniversityId() != null &&
+                educationalPathDTO.getFacultyId() != null &&
+                educationalPathDTO.getDegreeCourseId() != null) {
+            University university = universityRepository.findById(educationalPathDTO.getUniversityId())
+                    .orElseThrow(() -> new EntityNotFoundException("University not found"));
+
+            Faculty faculty = facultyRepository.findById(educationalPathDTO.getFacultyId())
+                    .orElseThrow(() -> new EntityNotFoundException("Faculty not found"));
+
+            DegreeCourse degreeCourse = degreeCourseRepository.findById(educationalPathDTO.getDegreeCourseId())
+                    .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+            EducationalPath educationalPath = new EducationalPath(professional, university, faculty, degreeCourse);
+            if (!professional.getEducationalPaths().contains(educationalPath)) {
+                professional.addEducationalPath(educationalPath);
+            }
+
+        }
+        return professionalRepository.save(professional);
+    }
+
+    public Professional updateProfession(String professionalUsername, ProfessionDTO professionDTO) {
+        Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+
+        if (professionDTO.getId() != null) {
+            Profession profession = professionRepository.findById(professionDTO.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
             professional.setProfession(profession);
+        }
+        return professionalRepository.save(professional);
+    }
+
+    public Professional updateProfilePicture(String professionalUsername, MultipartFile profilePicture) {
+        Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+
+        AppUser appUser = professional.getAppUser();
+
+        if (profilePicture != null && !profilePicture.isEmpty()) {
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures").get("url").toString());
+        } else {
+            appUser.setProfilePicture(null);
         }
 
         return professionalRepository.save(professional);
     }
 
+
     public Professional updateWrittenStory(String professionalUsername, String writtenStory) {
         Professional professional = professionalRepository.findByAppUserUsername(professionalUsername)
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
-        professional.setWrittenStory(writtenStory);
+
+        if (writtenStory != null && !writtenStory.isEmpty()) {
+            professional.setWrittenStory(writtenStory);
+        } else {
+            professional.setWrittenStory(null);
+        }
 
         return professionalRepository.save(professional);
     }
@@ -109,6 +161,8 @@ public class ProfessionalService {
 
         if (videoStory != null && !videoStory.isEmpty()) {
             professional.setVideoStory(cloudinaryService.uploader(videoStory, "videoStories").get("url").toString());
+        } else {
+            professional.setVideoStory(null);
         }
 
         return professionalRepository.save(professional);
@@ -120,6 +174,8 @@ public class ProfessionalService {
 
         if (curriculumVitae != null && !curriculumVitae.isEmpty()) {
             professional.setCurriculumVitae(cloudinaryService.uploader(curriculumVitae, "curricula").get("url").toString());
+        } else {
+            professional.setCurriculumVitae(null);
         }
 
         return professionalRepository.save(professional);

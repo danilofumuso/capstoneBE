@@ -1,6 +1,7 @@
 package it.epicode.capstone.active_users.student;
 
 import it.epicode.capstone.auth.AppUser;
+import it.epicode.capstone.cloudinary.CloudinaryService;
 import it.epicode.capstone.sector.Sector;
 import it.epicode.capstone.sector.SectorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,9 @@ public class StudentService {
 
     @Autowired
     private SectorRepository sectorRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Transactional
     public Student updateStudent(String studentUsername, StudentDTO studentDTO) {
@@ -62,6 +67,21 @@ public class StudentService {
             }
 
             student.setSectorsOfInterest(sectors);
+        }
+
+        return studentRepository.save(student);
+    }
+
+    public Student updateProfilePicture(String studentUsername, MultipartFile profilePicture) {
+        Student student = studentRepository.findByAppUserUsername(studentUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        AppUser appUser = student.getAppUser();
+
+        if (profilePicture != null && !profilePicture.isEmpty()) {
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures").get("url").toString());
+        } else {
+            appUser.setProfilePicture(null);
         }
 
         return studentRepository.save(student);
