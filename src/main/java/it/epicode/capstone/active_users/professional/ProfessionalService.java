@@ -1,5 +1,8 @@
 package it.epicode.capstone.active_users.professional;
 
+import it.epicode.capstone.active_users.student.Student;
+import it.epicode.capstone.active_users.student.StudentRepository;
+import it.epicode.capstone.active_users.student.StudentSectorsOfInterestDTO;
 import it.epicode.capstone.auth.AppUser;
 import it.epicode.capstone.cloudinary.CloudinaryService;
 import it.epicode.capstone.degree_courses.DegreeCourse;
@@ -11,6 +14,7 @@ import it.epicode.capstone.faculty.FacultyRepository;
 import it.epicode.capstone.profession.Profession;
 import it.epicode.capstone.profession.ProfessionDTO;
 import it.epicode.capstone.profession.ProfessionRepository;
+import it.epicode.capstone.sector.Sector;
 import it.epicode.capstone.university.University;
 import it.epicode.capstone.university.UniversityRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,6 +35,9 @@ public class ProfessionalService {
 
     @Autowired
     private ProfessionalRepository professionalRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -51,6 +59,17 @@ public class ProfessionalService {
 
     public Page<Professional> getAllProfessionals(Pageable pageable) {
         return professionalRepository.findAll(pageable);
+    }
+
+    public Page<Professional> getAllProfessionalBySectors(String studentUsername, Pageable pageable) {
+        Student student = studentRepository.findByAppUserUsername(studentUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Set<Long> sectorsId = student.getSectorsOfInterest()
+                .stream()
+                .map(Sector::getId)
+                .collect(Collectors.toSet());
+
+        return professionalRepository.findByProfession_Sector_IdIn(sectorsId, pageable);
     }
 
     public Optional<Professional> findById(Long id) {
