@@ -59,10 +59,17 @@ public class StudentService {
             appUser.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
         }
 
-        if (studentDTO.getSectorsOfInterestId() != null) {
+        return studentRepository.save(student);
+    }
+
+    public Student updateSectorsOfInterest(String studentUsername, StudentSectorsOfInterestDTO studentSectorsOfInterestDTO) {
+        Student student = studentRepository.findByAppUserUsername(studentUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+        if (studentSectorsOfInterestDTO.getSectorsOfInterestId() != null) {
             Set<Sector> sectors = new HashSet<>();
 
-            for (Long sectorId : studentDTO.getSectorsOfInterestId()) {
+            for (Long sectorId : studentSectorsOfInterestDTO.getSectorsOfInterestId()) {
                 sectorRepository.findById(sectorId).ifPresent(sectors::add);
             }
 

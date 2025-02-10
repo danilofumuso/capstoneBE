@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -54,6 +51,10 @@ public class ProfessionalService {
 
     public Page<Professional> getAllProfessionals(Pageable pageable) {
         return professionalRepository.findAll(pageable);
+    }
+
+    public Optional<Professional> findById(Long id) {
+        return professionalRepository.findById(id);
     }
 
     @Transactional
@@ -185,4 +186,6 @@ public class ProfessionalService {
     public void deleteProfessional(String professionalUsername) {
         professionalRepository.deleteByAppUserUsername(professionalUsername);
     }
+
+
 }

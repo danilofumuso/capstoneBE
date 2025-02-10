@@ -22,6 +22,13 @@ public class StudentController {
         return ResponseEntity.ok(studentService.updateStudent(student.getUsername(), studentDTO));
     }
 
+    @PatchMapping("/sectorsOfInterest")
+    public ResponseEntity<Student> updateSectorsOfInterest(@AuthenticationPrincipal UserDetails student,
+                                                           @RequestBody StudentSectorsOfInterestDTO studentSectorsOfInterestDTO) {
+
+        return ResponseEntity.ok(studentService.updateSectorsOfInterest(student.getUsername(), studentSectorsOfInterestDTO));
+    }
+
     @PatchMapping(path = "/profilePicture", consumes = {"multipart/form-data"})
     public ResponseEntity<Student> updateProfilePicture(
             @AuthenticationPrincipal UserDetails student,

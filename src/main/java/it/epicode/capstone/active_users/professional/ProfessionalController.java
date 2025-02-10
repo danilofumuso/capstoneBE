@@ -2,6 +2,7 @@ package it.epicode.capstone.active_users.professional;
 
 import it.epicode.capstone.educational_path.EducationalPathDTO;
 import it.epicode.capstone.profession.ProfessionDTO;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,14 @@ public class ProfessionalController {
     @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<Professional>> getAllProfessional(Pageable pageable) {
         return ResponseEntity.ok(professionalService.getAllProfessionals(pageable));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_STUDENT') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Professional> getProfessionalById(@PathVariable Long id) {
+        Professional professional = professionalService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
+        return ResponseEntity.ok(professional);
     }
 
     @PutMapping
