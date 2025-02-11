@@ -72,6 +72,18 @@ public class ProfessionalService {
         return professionalRepository.findByProfession_Sector_IdIn(sectorsId, pageable);
     }
 
+    public Page<Professional> getAllProfessionalByFilters(ProfessionDTO professionDTO, Pageable pageable) {
+        if (professionDTO.getSectorId()!=null && professionDTO.getId()!=null) {
+            return professionalRepository.findByProfession_Sector_IdAndProfession_Id(professionDTO.getSectorId(), professionDTO.getId(), pageable);
+        } else if (professionDTO.getSectorId()!=null) {
+            return professionalRepository.findByProfession_Sector_Id(professionDTO.getSectorId(), pageable);
+        } else if (professionDTO.getId()!=null) {
+            return professionalRepository.findByProfession_Id(professionDTO.getId(), pageable);
+        } else {
+            throw new IllegalArgumentException("At least one filter must be specified: sectorId or professionId.");
+        }
+    }
+
     public Optional<Professional> findById(Long id) {
         return professionalRepository.findById(id);
     }

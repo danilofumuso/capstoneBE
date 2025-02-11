@@ -13,5 +13,11 @@ public interface ProfessionalRepository extends JpaRepository<Professional, Long
     void deleteByAppUserUsername(String username);
 
     Page<Professional> findByProfession_Sector_IdIn(Set<Long> sectorIds, Pageable pageable);
+
+    Page<Professional> findByProfession_Sector_IdAndProfession_Id(Long sectorId, Long professionId, Pageable pageable);
+
+    Page<Professional> findByProfession_Sector_Id(Long sectorId, Pageable pageable);
+
+    Page<Professional> findByProfession_Id(Long professionId, Pageable pageable);
 }
 

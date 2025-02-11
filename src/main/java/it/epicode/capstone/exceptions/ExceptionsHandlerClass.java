@@ -14,7 +14,12 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionsHandlerClass {
- @ExceptionHandler(value = SecurityException.class)
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    protected ResponseEntity<Object> illegalArgument(IllegalArgumentException e) {
+        return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = SecurityException.class)
     protected ResponseEntity<Object> security(SecurityException e) {
         return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
     }

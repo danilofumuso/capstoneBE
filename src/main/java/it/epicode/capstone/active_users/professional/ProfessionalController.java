@@ -27,12 +27,19 @@ public class ProfessionalController {
         return ResponseEntity.ok(professionalService.getAllProfessionals(pageable));
     }
 
-    @GetMapping("/bySectors")
+    @GetMapping("/byStudentSectorsOfInterest")
     @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<Professional>> getProfessionalsbySectors(@AuthenticationPrincipal UserDetails student, Pageable pageable) {
 
         return ResponseEntity.ok(professionalService.getAllProfessionalBySectors(student.getUsername(), pageable));
 
+    }
+
+    @PostMapping("/filtered")
+    @PreAuthorize("hasRole('ROLE_STUDENT') OR hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Page<Professional>> getAllProfessionalsByFilters(
+            @RequestBody ProfessionDTO professionDTO, Pageable pageable) {
+        return ResponseEntity.ok(professionalService.getAllProfessionalByFilters(professionDTO, pageable));
     }
 
     @GetMapping("/{id}")
