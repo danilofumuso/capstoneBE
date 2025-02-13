@@ -165,7 +165,7 @@ public class ProfessionalService {
         AppUser appUser = professional.getAppUser();
 
         if (profilePicture != null && !profilePicture.isEmpty()) {
-            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures").get("url").toString());
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures","image").get("url").toString());
         } else {
             appUser.setProfilePicture(null);
         }
@@ -192,7 +192,7 @@ public class ProfessionalService {
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 
         if (videoStory != null && !videoStory.isEmpty()) {
-            professional.setVideoStory(cloudinaryService.uploader(videoStory, "videoStories").get("url").toString());
+            professional.setVideoStory(cloudinaryService.uploader(videoStory, "videoStories","video").get("url").toString());
         } else {
             professional.setVideoStory(null);
         }
@@ -205,7 +205,7 @@ public class ProfessionalService {
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 
         if (curriculumVitae != null && !curriculumVitae.isEmpty()) {
-            professional.setCurriculumVitae(cloudinaryService.uploader(curriculumVitae, "curricula").get("url").toString());
+            professional.setCurriculumVitae(cloudinaryService.uploader(curriculumVitae, "curricula","raw").get("url").toString());
         } else {
             professional.setCurriculumVitae(null);
         }

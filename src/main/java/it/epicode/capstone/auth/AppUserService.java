@@ -84,7 +84,7 @@ public class AppUserService {
         AppUser appUser = new AppUser();
         BeanUtils.copyProperties(registerDTO, appUser);
         if (profilePicture != null && !profilePicture.isEmpty()) {
-            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "usersProfilePictures").get("url").toString());
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "usersProfilePictures","image").get("url").toString());
         }
 
         appUser.setRoles(roles);

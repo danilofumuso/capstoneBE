@@ -15,14 +15,17 @@ public class CloudinaryService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public Map uploader(MultipartFile file, String folder) {
-
+    public Map uploader(MultipartFile file, String folder, String resourceType) {
         try {
-            Map result =
-                    cloudinary
-                            .uploader()
-                            .upload(file.getBytes(),
-                                    Cloudinary.asMap("folder", folder, "public_id", file.getOriginalFilename()));
+            Map result = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    Cloudinary.asMap(
+                            "folder", folder,
+                            "public_id", file.getOriginalFilename(),
+                            "resource_type", resourceType,
+                            "type", "upload"
+                    )
+            );
             return result;
         } catch (IOException e) {
             throw new UploadException("Errore durante l'upload del file " + file.getOriginalFilename());

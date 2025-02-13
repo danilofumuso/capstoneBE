@@ -86,7 +86,7 @@ public class StudentService {
         AppUser appUser = student.getAppUser();
 
         if (profilePicture != null && !profilePicture.isEmpty()) {
-            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures").get("url").toString());
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures","image").get("url").toString());
         } else {
             appUser.setProfilePicture(null);
         }

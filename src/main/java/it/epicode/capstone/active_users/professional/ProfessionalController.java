@@ -62,7 +62,7 @@ public class ProfessionalController {
     }
 
     @PatchMapping("/profession")
-    public ResponseEntity<Professional> updateProfession(UserDetails professional,
+    public ResponseEntity<Professional> updateProfession(@AuthenticationPrincipal UserDetails professional,
                                                          @RequestBody ProfessionDTO professionDTO) {
 
         return ResponseEntity.ok(professionalService.updateProfession(professional.getUsername(), professionDTO));
