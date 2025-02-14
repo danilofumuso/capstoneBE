@@ -40,7 +40,6 @@ public class AppUser {
     private Set<Role> roles;
 
     @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Student student;
 
     @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
