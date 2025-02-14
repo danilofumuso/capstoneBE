@@ -73,11 +73,11 @@ public class ProfessionalService {
     }
 
     public Page<Professional> getAllProfessionalByFilters(ProfessionDTO professionDTO, Pageable pageable) {
-        if (professionDTO.getSectorId()!=null && professionDTO.getId()!=null) {
+        if (professionDTO.getSectorId() != null && professionDTO.getId() != null) {
             return professionalRepository.findByProfession_Sector_IdAndProfession_Id(professionDTO.getSectorId(), professionDTO.getId(), pageable);
-        } else if (professionDTO.getSectorId()!=null) {
+        } else if (professionDTO.getSectorId() != null) {
             return professionalRepository.findByProfession_Sector_Id(professionDTO.getSectorId(), pageable);
-        } else if (professionDTO.getId()!=null) {
+        } else if (professionDTO.getId() != null) {
             return professionalRepository.findByProfession_Id(professionDTO.getId(), pageable);
         } else {
             throw new IllegalArgumentException("At least one filter must be specified: sectorId or professionId.");
@@ -94,11 +94,11 @@ public class ProfessionalService {
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 
         AppUser appUser = professional.getAppUser();
-        if (professionalDTO.getName() != null) {
+        if (professionalDTO.getName() != null && !professionalDTO.getName().isEmpty()) {
             appUser.setName(professionalDTO.getName());
         }
 
-        if (professionalDTO.getSurname() != null) {
+        if (professionalDTO.getSurname() != null && !professionalDTO.getSurname().isEmpty()) {
             appUser.setSurname(professionalDTO.getSurname());
         }
 
@@ -106,15 +106,15 @@ public class ProfessionalService {
             appUser.setDateOfBirth(professionalDTO.getDateOfBirth());
         }
 
-        if (professionalDTO.getUsername() != null) {
+        if (professionalDTO.getUsername() != null && !professionalDTO.getUsername().isEmpty()) {
             appUser.setUsername(professionalDTO.getUsername());
         }
 
-        if (professionalDTO.getEmail() != null) {
+        if (professionalDTO.getEmail() != null && !professionalDTO.getEmail().isEmpty()) {
             appUser.setEmail(professionalDTO.getEmail());
         }
 
-        if (professionalDTO.getPassword() != null) {
+        if (professionalDTO.getPassword() != null && !professionalDTO.getPassword().isEmpty()) {
             appUser.setPassword(passwordEncoder.encode(professionalDTO.getPassword()));
         }
 
@@ -165,7 +165,7 @@ public class ProfessionalService {
         AppUser appUser = professional.getAppUser();
 
         if (profilePicture != null && !profilePicture.isEmpty()) {
-            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures","image").get("url").toString());
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures", "image").get("url").toString());
         } else {
             appUser.setProfilePicture(null);
         }
@@ -192,7 +192,7 @@ public class ProfessionalService {
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 
         if (videoStory != null && !videoStory.isEmpty()) {
-            professional.setVideoStory(cloudinaryService.uploader(videoStory, "videoStories","video").get("url").toString());
+            professional.setVideoStory(cloudinaryService.uploader(videoStory, "videoStories", "video").get("url").toString());
         } else {
             professional.setVideoStory(null);
         }
@@ -205,7 +205,7 @@ public class ProfessionalService {
                 .orElseThrow(() -> new EntityNotFoundException("Professional not found"));
 
         if (curriculumVitae != null && !curriculumVitae.isEmpty()) {
-            professional.setCurriculumVitae(cloudinaryService.uploader(curriculumVitae, "curricula","raw").get("url").toString());
+            professional.setCurriculumVitae(cloudinaryService.uploader(curriculumVitae, "curricula", "raw").get("url").toString());
         } else {
             professional.setCurriculumVitae(null);
         }

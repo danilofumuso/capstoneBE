@@ -35,11 +35,11 @@ public class StudentService {
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
         AppUser appUser = student.getAppUser();
-        if (studentDTO.getName() != null) {
+        if (studentDTO.getName() != null && !studentDTO.getName().isEmpty()) {
             appUser.setName(studentDTO.getName());
         }
 
-        if (studentDTO.getSurname() != null) {
+        if (studentDTO.getSurname() != null && !studentDTO.getSurname().isEmpty()) {
             appUser.setSurname(studentDTO.getSurname());
         }
 
@@ -47,15 +47,15 @@ public class StudentService {
             appUser.setDateOfBirth(studentDTO.getDateOfBirth());
         }
 
-        if (studentDTO.getUsername() != null) {
+        if (studentDTO.getUsername() != null && !studentDTO.getUsername().isEmpty()) {
             appUser.setUsername(studentDTO.getUsername());
         }
 
-        if (studentDTO.getEmail() != null) {
+        if (studentDTO.getEmail() != null && !studentDTO.getEmail().isEmpty()) {
             appUser.setEmail(studentDTO.getEmail());
         }
 
-        if (studentDTO.getPassword() != null) {
+        if (studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
             appUser.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
         }
 
@@ -86,7 +86,7 @@ public class StudentService {
         AppUser appUser = student.getAppUser();
 
         if (profilePicture != null && !profilePicture.isEmpty()) {
-            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures","image").get("url").toString());
+            appUser.setProfilePicture(cloudinaryService.uploader(profilePicture, "profilePictures", "image").get("url").toString());
         } else {
             appUser.setProfilePicture(null);
         }
