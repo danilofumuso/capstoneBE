@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -37,11 +38,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
+                if (jwtTokenUtil.getExpirationDateFromToken(jwtToken).before(new Date())) {
+                    throw new ExpiredJwtException(null, null, "JWT token expired");
+                }
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT token");
             } catch (ExpiredJwtException e) {
-                System.out.println("JWT token is expired");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT Token expired");
+                return;
+
             }
         } else {
             chain.doFilter(request, response);
