@@ -27,5 +27,6 @@ public class Student {
     private Set<Sector> sectorsOfInterest = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Favourite> favorites = new LinkedHashSet<>();
 }

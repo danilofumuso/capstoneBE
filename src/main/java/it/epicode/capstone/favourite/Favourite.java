@@ -1,6 +1,6 @@
 package it.epicode.capstone.favourite;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import it.epicode.capstone.active_users.professional.Professional;
 import it.epicode.capstone.active_users.student.Student;
 import jakarta.persistence.*;

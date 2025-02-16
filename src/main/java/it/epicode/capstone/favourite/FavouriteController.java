@@ -23,9 +23,9 @@ public class FavouriteController {
         return ResponseEntity.ok(favouriteService.getFavourites(student.getUsername(), pageable));
     }
 
-    @PostMapping
+    @PostMapping("/{professionalId}")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<Favourite> addFavourite(@AuthenticationPrincipal UserDetails student, @RequestParam Long professionalId) {
+    public ResponseEntity<Favourite> addFavourite(@AuthenticationPrincipal UserDetails student, @PathVariable Long professionalId) {
 
         return new ResponseEntity<>(favouriteService.addFavourite(student.getUsername(), professionalId), HttpStatus.CREATED);
     }
