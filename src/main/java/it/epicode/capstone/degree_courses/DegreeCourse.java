@@ -1,6 +1,7 @@
 package it.epicode.capstone.degree_courses;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -11,7 +12,8 @@ public class DegreeCourse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "You must enter a name!")
+    @Column(unique = true)
     private String name;
-
 
 }

@@ -2,6 +2,7 @@ package it.epicode.capstone.university;
 
 import it.epicode.capstone.faculty.Faculty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -15,6 +16,8 @@ public class University {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "You must enter a name!")
+    @Column(unique = true)
     private String name;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
