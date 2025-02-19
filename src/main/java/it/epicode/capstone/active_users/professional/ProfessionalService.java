@@ -2,7 +2,6 @@ package it.epicode.capstone.active_users.professional;
 
 import it.epicode.capstone.active_users.student.Student;
 import it.epicode.capstone.active_users.student.StudentRepository;
-import it.epicode.capstone.active_users.student.StudentSectorsOfInterestDTO;
 import it.epicode.capstone.auth.AppUser;
 import it.epicode.capstone.cloudinary.CloudinaryService;
 import it.epicode.capstone.degree_courses.DegreeCourse;

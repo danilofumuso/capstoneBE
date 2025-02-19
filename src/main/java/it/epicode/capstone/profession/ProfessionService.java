@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ProfessionService {
         return professionRepository.findBySector_Id(sectorId);
     }
 
+    @Transactional
     public Profession createProfession(ProfessionDTO professionDTO) {
         if (professionRepository.existsByName(professionDTO.getName())) {
             throw new EntityExistsException("Profession already exists");
@@ -45,6 +47,7 @@ public class ProfessionService {
         return professionRepository.save(profession);
     }
 
+    @Transactional
     public Profession updateProfession(Long professionId, ProfessionDTO professionDTO) {
         Profession profession = professionRepository.findById(professionId)
                 .orElseThrow(() -> new EntityNotFoundException("Profession not found"));
