@@ -35,7 +35,7 @@ public class Professional {
     @JoinColumn(name = "profession_id")
     private Profession profession;
 
-    @Column(name = "written_story")
+    @Column(name = "written_story", length = 5000)
     private String writtenStory;
 
     @Column(name = "video_story")
